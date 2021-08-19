@@ -1,0 +1,216 @@
+\input ../setup
+
+\usepackage{hyperref}
+\usepackage{listings}
+\usepackage{color}
+\usepackage{enumerate}
+\usepackage{graphicx}
+\usepackage{tikz-qtree}
+
+% \renewcommand{\labelenumi}{\alph{enumi}.}
+% \renewcommand{\labelenumii}{(\roman{enumii})}
+
+\definecolor{mygreen}{rgb}{0,0.6,0}
+\definecolor{mygray}{rgb}{0.5,0.5,0.5}
+\definecolor{mymauve}{rgb}{0.58,0,0.82}
+
+
+\lstdefinestyle{normalPy}{
+language=Python,				% the language of the code
+basicstyle=\footnotesize,			% the size of the fonts that are used for the code
+numbers=left,				% where to put the line-numbers; possible values are (none, left, right)
+numberstyle=\color{mygray},		% the style that is used for the line-numbers
+stepnumber=1,				% the step between two line-numbers. If it's 1, each line will be numbered
+numbersep=5pt,				% how far the line-numbers are from the code
+backgroundcolor=\color{white},		% choose the background color; you must add \usepackage{color} or \usepackage{xcolor}
+showstringspaces=false,			% underline spaces within strings only
+showspaces=false,				% show spaces everywhere adding particular underscores; it overrides 'showstringspaces'
+showtabs=false,				% show tabs within strings adding particular underscores
+frame=shadowbox,				% adds a frame around the code
+tabsize=4,					% sets default tabsize to 4 spaces
+captionpos=t,				% sets the caption-position to bottom
+breaklines=true,				% sets automatic line breaking
+breakatwhitespace=false,			% sets if automatic breaks should only happen at whitespace
+commentstyle=\color{mygreen},    	% comment style
+keepspaces=true,                 		% keeps spaces in text, useful for keeping indentation of code (possibly needs columns=flexible)
+keywordstyle=\color{blue},       		% keyword style
+}
+
+\lstdefinestyle{consolePy}{
+stepnumber=0,
+}
+\tikzset{every tree node/.style={minimum width=2em,draw,circle},
+         blank/.style={draw=none},
+         edge from parent/.style=
+         {draw, edge from parent path={(\tikzparentnode) -- (\tikzchildnode)}},
+         level distance=1.5cm}
+
+\begin{document}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\psetheader{Extra Practice 1}{}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\medskip
+
+\section{Question 1}
+Let's start with a basic code tracing.
+\begin{python}
+  x = 1
+
+  def foo(x):
+    return x + 1
+
+  print(foo(2))
+  print(foo(x))
+  print(x)
+\end{python}
+
+\section{Question 2}
+How about this one?
+\begin{python}
+  x = 1
+
+  def add_one(x):
+    print (x + 1)
+
+  print(add_one(2))
+  y = add_one(x)
+  print(add_one(y))
+\end{python}
+
+\section{Question 3}
+Give the output of the following function call.
+\begin{python}
+  x = 10
+  def ping(x):
+    return pong(x + 4)
+  def pong(x):
+    x += 1
+    return x**2
+  
+  print(ping(3))
+  print(pong(x))
+  ping(2) # what happens here?
+\end{python}
+
+\section{Question 4}
+Give the output of the following function call.
+\begin{python}
+  x, y = 1, 4
+  x, y = y, x
+
+  def ding(x):
+    if x % 2 == 1:
+      print("Alright")
+    elif x % 3 == 1:
+      print("Okay")
+    if x**0.5 == y + 1:
+      print("Awesome")
+    else:
+      print("This question sucks")
+
+  ding(x)
+  ding(y)
+  ding(9)
+  print(ding(3))  # what happens here?
+\end{python}
+
+\section{Question 5}
+Give the output of the following function call.
+\begin{python}
+  def check(word):
+    if len(word) >= 3:
+      print("gg")
+    if word[0] == word[-1]:
+      print("cool")
+    elif word[::2] == "cdc":
+      print("nice")
+    else:
+      print("end?")
+    if word[3::-1] == "edoc":
+      print("not yet")
+    else:
+      print("end now")
+    
+  check("codec")
+  check("codecs")
+  check("ar")
+\end{python}
+
+\section{Question 6}
+\begin{enumerate}[(a)]
+  \item Define a function named \texttt{\bfseries total\_legs} that takes in two inputs - the number of chickens and the number of cows,
+  and returns the total number of legs in total. \\
+  \textbf{Sample Execution:}
+  \begin{python}
+    >>> total_legs(2, 2)
+    12
+    >>> total_legs(1, 4)
+    18
+    >>> total_legs(0, 1)
+    4
+  \end{python}
+
+  \item A tax is imposed on a farm that charges the farmer \$2 for every leg present on the farm. Define a function named
+  \texttt{\bfseries tax\_count} that takes in two inputs - the number of chickens and the number of cows, and returns the amount of tax that
+  the farmer needs to pay. Use your previously-defined function(s). :) \\
+  \textbf{Sample Execution:}
+  \begin{python}
+    >>> tax_count(2, 2)
+    24
+    >>> tax_count(0, 2)
+    16
+  \end{python}
+  
+  \item The farmer wants to see if the total number of animals he has on his farm exceeds 10. Otherwise, he needs to pay \$5
+  more as tax. Let’s define a function named \texttt{\bfseries too\_many} that takes in two inputs - the number of chickens and the number of cows,
+  and returns \texttt{\bfseries True/False} depending on whether the total number of animals exceeds 10. \\
+  \textbf{Sample Execution:}
+  \begin{python}
+    >>> too_many(2, 2)
+    False
+    >>> too_many(7, 4)
+    True
+  \end{python}
+
+  \item Now, we want to find the total amount that the farmer needs to pay in total as tax. Define a function named \texttt{\bfseries total}
+  that takes in the same two inputs and returns the amount he needs to pay. You need to use your previously-defined functions. \\
+  \textbf{Sample Execution:}
+  \begin{python}
+    >>> total(2, 2)
+    24
+    >>> total(10, 1)
+    53
+  \end{python}
+\end{enumerate}
+
+\section{Question 7}
+Sometimes, we may wish to encrypt our password by adding some asterisks at the back of the word. We want to mask the final 4 characters
+with "*". If the word is shorter than 4 letters, the entire word is masked. This function will be called \texttt{\bfseries maskify} that takes in a word and
+returns the new masked word. \\
+\textbf{Sample Execution:}
+\begin{python}
+  >>> maskify("password")
+  'pass****'
+  >>> maskify("burger")
+  'bu****'
+  >>> maskify("cone")
+  '****'
+  >>> maskify("cs")
+  '**'
+  >>> maskify("cs1010s is fun")
+  'cs1010s is****'
+\end{python}
+
+\section{Question 8}
+Last question! What does this function do?
+\begin{python}
+  def iterate(x):
+    total = 0
+    for i in range(x):
+      if x % 2 == 1:
+        total += i
+  return total
+\end{python}
+
+\end{document}
