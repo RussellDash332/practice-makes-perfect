@@ -53,7 +53,163 @@ stepnumber=0,
 \medskip
 
 \section{Question 1}
+Trace the following code. \textbf{(4 marks)}
 \begin{python}
+result = 0
+for i in range(5):
+    result += 1
+print(result)
+
+result2 = 0
+for i in range(1, 5):
+    result2 += 1
+print(result2)
+\end{python}
+
+\section{Question 2}
+Trace the following code. \textbf{(5 marks)}
+\begin{python}
+result = 0
+for i in range(1, 13, 3):
+    if i % 2 == 0:
+        i += 2
+    else:
+        result //= i
+    result += i
+
+print(result)
+\end{python}
+
+\newpage
+
+\section{Question 3}
+Trace the following code. \textbf{(5 marks)}
+\begin{python}
+a, b, c = "east", "easter", "easy"
+a, b, c = c, a, b
+
+if a < b:
+    a, b = b, a
+else:
+    if b < c:
+        a += b
+b = a + c
+
+print(a[:-1])
+print(b[1:])
+print(c[::-1])
+\end{python}
+
+\section{Question 4}
+To play a game of bowling, we will store our results from each throw in an integer such
+as 1459. In this game, we will only play with 9 pins. 1459 means 1 pin is struck in the
+first shot, 4 pins in the second shot, 5 pins in the third shot and a strike in the last shot.
+\begin{enumerate}[(a)]
+\item Define a function \texttt{\bfseries score} that takes in an integer and returns the total score of the
+game (1 pin = 1 point). Use an iterative approach. \textbf{(4 marks)} \\
+\textbf{Sample Tests:}
+\begin{python}
+>>> score(1459)
+19
+>>> score(999)
+27
+\end{python}
+
+\item What is the order of growth (in space and time) of your solution in part (a)? Explain
+your answer. \textbf{(2 marks)}
+
+\item Define a function \texttt{\bfseries score\_recursive} that does the same thing as in part a but in a
+\textbf{recursive} manner. \textbf{(4 marks)}
+
+\item What is the order of growth (in space and time) of your solution in part (c)? Explain
+your answer. \textbf{(2 marks)}
+
+\item Define a function \texttt{\bfseries strike\_count} and \texttt{\bfseries strike\_count\_recursive} that takes in
+an integer and returns the total number of strikes in the game. Use iteration and recursion respectively. \textbf{(8 marks)} \\
+\textbf{Sample Tests:}
+\begin{python}
+>>> strike_count(919)
+2
+>>> strike_count(1234560)
+0
+>>> strike_count(9999)
+4
+\end{python}
+
+\item Now, each strike is going to be worth an extra 5 points each! Using your previously
+defined functions, define a new function \texttt{\bfseries score\_improved} that takes in an integer and
+returns the total score. \textbf{(4 marks)} \\
+\textbf{Sample Tests:}
+\begin{python}
+>>> score_improved(919)
+29
+>>> score_improved(1234)
+10
+>>> score_improved(12349)
+24
+\end{python}
+\end{enumerate}
+
+\section{Question 5}
+\begin{enumerate}[(a)]
+\item We will define another maskify function to encrypt our password. Given a password
+of any length, we want to mask all the characters with "*". Define a function \texttt{\bfseries maskify}
+that takes in a password as a string and returns the new masked word. Use \textbf{iteration}. \textbf{(4 marks)} \\
+\textbf{Sample Tests:}
+\begin{python}
+>>> maskify("password")
+'********'
+>>> maskify("121")
+'***'
+\end{python}
+
+\item State the time and space complexity of your solution. \textbf{(2 marks)}
+
+\item Do part (a) with recursion. \textbf{(4 marks)}
+
+\item State the time and space complexity of your solution. \textbf{(2 marks)}
+
+\item Now, we want to put an "*" sign in between all of the letters. Define a function \texttt{\bfseries slot}
+that does this recursively. \textbf{(6 marks)} \\
+\textbf{Sample Tests:}
+\begin{python}
+>>> slot("pass")
+'p*a*s*s'
+>>> slot("123")
+'1*2*3'
+\end{python}
+
+\item We want to insert the "*" sign now into consecutive letters that are identical to each
+other only. Define a function \texttt{\bfseries advanced\_slot} that can do this recursively. \textbf{(6 marks)} \\
+\textbf{Sample Tests:}
+\begin{python}
+>>> advanced_slot("pass")
+'pas*s'
+>>> advanced_slot("aaaaba")
+'a*a*a*aba'
+\end{python}
+\end{enumerate}
+
+\newpage
+
+\section{Question 6}
+Trace the following code. \textbf{(4 marks)}
+\begin{python}
+def weird_sum(n):
+    if n == 0:
+        return 0 
+    else:
+        return n + weird_sum(n - 2)
+
+print(weird_sum(5))
+\end{python}
+
+\section{Question 7}
+Trace the following code. \textbf{(4 marks)}
+\begin{python}
+for i in range(5):
+    print(i)
+    i += i
 \end{python}
 
 \end{document}
