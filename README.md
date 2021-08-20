@@ -7,7 +7,7 @@ Post-tutorial extra practice questions. Meant for educational purposes.
 |PDF|tex|py|
 |:---:|:---:|:--:|
 |[Extra Practice 1](https://github.com/RussellDash332/practice-makes-perfect/blob/main/01/extra-1.pdf)|[✔️](https://github.com/RussellDash332/practice-makes-perfect/blob/main/01/extra-1.tex)|[✔️](https://github.com/RussellDash332/practice-makes-perfect/tree/main/01/py)|
-|[Extra Practice 2](https://github.com/RussellDash332/practice-makes-perfect/blob/main/02/extra-2.pdf)|[❌](https://github.com/RussellDash332/practice-makes-perfect/blob/main/02/extra-2.tex)|[❌](https://github.com/RussellDash332/practice-makes-perfect/tree/main/02/py)|
+|[Extra Practice 2](https://github.com/RussellDash332/practice-makes-perfect/blob/main/02/extra-2.pdf)|[✔️](https://github.com/RussellDash332/practice-makes-perfect/blob/main/02/extra-2.tex)|[✔️](https://github.com/RussellDash332/practice-makes-perfect/tree/main/02/py)|
 |[Extra Practice 3](https://github.com/RussellDash332/practice-makes-perfect/blob/main/03/extra-3.pdf)|[❌](https://github.com/RussellDash332/practice-makes-perfect/blob/main/03/extra-3.tex)|[❌](https://github.com/RussellDash332/practice-makes-perfect/tree/main/03/py)|
 |[Extra Practice 4](https://github.com/RussellDash332/practice-makes-perfect/blob/main/04/extra-4.pdf)|[❌](https://github.com/RussellDash332/practice-makes-perfect/blob/main/04/extra-4.tex)|[❌](https://github.com/RussellDash332/practice-makes-perfect/tree/main/04/py)|
 |[Extra Practice 5](https://github.com/RussellDash332/practice-makes-perfect/blob/main/05/extra-5.pdf)|[❌](https://github.com/RussellDash332/practice-makes-perfect/blob/main/05/extra-5.tex)|[❌](https://github.com/RussellDash332/practice-makes-perfect/tree/main/05/py)|
