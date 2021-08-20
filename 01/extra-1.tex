@@ -55,133 +55,133 @@ stepnumber=0,
 \section{Question 1}
 Let's start with a basic code tracing.
 \begin{python}
-  x = 1
+x = 1
 
-  def foo(x):
+def foo(x):
     return x + 1
 
-  print(foo(2))
-  print(foo(x))
-  print(x)
+print(foo(2))
+print(foo(x))
+print(x)
 \end{python}
 
 \section{Question 2}
 How about this one?
 \begin{python}
-  x = 1
+x = 1
 
-  def add_one(x):
+def add_one(x):
     print (x + 1)
 
-  print(add_one(2))
-  y = add_one(x)
-  print(add_one(y))
+print(add_one(2))
+y = add_one(x)
+print(add_one(y))
 \end{python}
 
 \section{Question 3}
 Give the output of the following function call.
 \begin{python}
-  x = 10
-  def ping(x):
+x = 10
+def ping(x):
     return pong(x + 4)
-  def pong(x):
+def pong(x):
     x += 1
     return x**2
   
-  print(ping(3))
-  print(pong(x))
-  ping(2) # what happens here?
+print(ping(3))
+print(pong(x))
+ping(2) # what happens here?
 \end{python}
 
 \section{Question 4}
 Give the output of the following function call.
 \begin{python}
-  x, y = 1, 4
-  x, y = y, x
+x, y = 1, 4
+x, y = y, x
 
-  def ding(x):
+def ding(x):
     if x % 2 == 1:
-      print("Alright")
+        print("Alright")
     elif x % 3 == 1:
-      print("Okay")
-    if x**0.5 == y + 1:
-      print("Awesome")
+        print("Okay")
+    if x ** 0.5 == y + 1:
+        print("Awesome")
     else:
-      print("This question sucks")
+        print("This question sucks")
 
-  ding(x)
-  ding(y)
-  ding(9)
-  print(ding(3))  # what happens here?
+ding(x)
+ding(y)
+ding(9)
+print(ding(3))  # what happens here?
 \end{python}
 
 \section{Question 5}
 Give the output of the following function call.
 \begin{python}
-  def check(word):
+def check(word):
     if len(word) >= 3:
-      print("gg")
+        print("gg")
     if word[0] == word[-1]:
-      print("cool")
+        print("cool")
     elif word[::2] == "cdc":
-      print("nice")
+        print("nice")
     else:
-      print("end?")
+        print("end?")
     if word[3::-1] == "edoc":
-      print("not yet")
+        print("not yet")
     else:
-      print("end now")
+        print("end now")
     
-  check("codec")
-  check("codecs")
-  check("ar")
+check("codec")
+check("codecs")
+check("ar")
 \end{python}
 
 \section{Question 6}
 \begin{enumerate}[(a)]
-  \item Define a function named \texttt{\bfseries total\_legs} that takes in two inputs - the number of chickens and the number of cows,
-  and returns the total number of legs in total. \\
-  \textbf{Sample Execution:}
-  \begin{python}
-    >>> total_legs(2, 2)
-    12
-    >>> total_legs(1, 4)
-    18
-    >>> total_legs(0, 1)
-    4
-  \end{python}
+\item Define a function named \texttt{\bfseries total\_legs} that takes in two inputs - the number of chickens and the number of cows,
+and returns the total number of legs in total. \\
+\textbf{Sample Execution:}
+\begin{python}
+>>> total_legs(2, 2)
+12
+>>> total_legs(1, 4)
+18
+>>> total_legs(0, 1)
+4
+\end{python}
 
-  \item A tax is imposed on a farm that charges the farmer \$2 for every leg present on the farm. Define a function named
-  \texttt{\bfseries tax\_count} that takes in two inputs - the number of chickens and the number of cows, and returns the amount of tax that
-  the farmer needs to pay. Use your previously-defined function(s). :) \\
-  \textbf{Sample Execution:}
-  \begin{python}
-    >>> tax_count(2, 2)
-    24
-    >>> tax_count(0, 2)
-    16
-  \end{python}
+\item A tax is imposed on a farm that charges the farmer \$2 for every leg present on the farm. Define a function named
+\texttt{\bfseries tax\_count} that takes in two inputs - the number of chickens and the number of cows, and returns the amount of tax that
+the farmer needs to pay. Use your previously-defined function(s). :) \\
+\textbf{Sample Execution:}
+\begin{python}
+>>> tax_count(2, 2)
+24
+>>> tax_count(0, 2)
+16
+\end{python}
   
-  \item The farmer wants to see if the total number of animals he has on his farm exceeds 10. Otherwise, he needs to pay \$5
-  more as tax. Let’s define a function named \texttt{\bfseries too\_many} that takes in two inputs - the number of chickens and the number of cows,
-  and returns \texttt{\bfseries True/False} depending on whether the total number of animals exceeds 10. \\
-  \textbf{Sample Execution:}
-  \begin{python}
-    >>> too_many(2, 2)
-    False
-    >>> too_many(7, 4)
-    True
-  \end{python}
+\item The farmer wants to see if the total number of animals he has on his farm exceeds 10. Otherwise, he needs to pay \$5
+more as tax. Let’s define a function named \texttt{\bfseries too\_many} that takes in two inputs - the number of chickens and the number of cows,
+and returns \texttt{\bfseries True/False} depending on whether the total number of animals exceeds 10. \\
+\textbf{Sample Execution:}
+\begin{python}
+>>> too_many(2, 2)
+False
+>>> too_many(7, 4)
+True
+\end{python}
 
-  \item Now, we want to find the total amount that the farmer needs to pay in total as tax. Define a function named \texttt{\bfseries total}
-  that takes in the same two inputs and returns the amount he needs to pay. You need to use your previously-defined functions. \\
-  \textbf{Sample Execution:}
-  \begin{python}
-    >>> total(2, 2)
-    24
-    >>> total(10, 1)
-    53
-  \end{python}
+\item Now, we want to find the total amount that the farmer needs to pay in total as tax. Define a function named \texttt{\bfseries total}
+that takes in the same two inputs and returns the amount he needs to pay. You need to use your previously-defined functions. \\
+\textbf{Sample Execution:}
+\begin{python}
+>>> total(2, 2)
+24
+>>> total(10, 1)
+53
+\end{python}
 \end{enumerate}
 
 \section{Question 7}
@@ -190,27 +190,27 @@ with "*". If the word is shorter than 4 letters, the entire word is masked. This
 returns the new masked word. \\
 \textbf{Sample Execution:}
 \begin{python}
-  >>> maskify("password")
-  'pass****'
-  >>> maskify("burger")
-  'bu****'
-  >>> maskify("cone")
-  '****'
-  >>> maskify("cs")
-  '**'
-  >>> maskify("cs1010s is fun")
-  'cs1010s is****'
+>>> maskify("password")
+'pass****'
+>>> maskify("burger")
+'bu****'
+>>> maskify("cone")
+'****'
+>>> maskify("cs")
+'**'
+>>> maskify("cs1010s is fun")
+'cs1010s is****'
 \end{python}
 
 \section{Question 8}
 Last question! What does this function do?
 \begin{python}
-  def iterate(x):
+def iterate(x):
     total = 0
     for i in range(x):
-      if x % 2 == 1:
-        total += i
-  return total
+        if x % 2 == 1:
+            total += i
+    return total
 \end{python}
 
 \end{document}
