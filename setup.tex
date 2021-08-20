@@ -1,0 +1,153 @@
+\documentclass[epic,eepic,11pt,a4paper]{article}
+\usepackage{graphicx,bookman}
+\pagestyle{myheadings}
+\usepackage{parskip}
+\usepackage[procnames]{listings}
+\usepackage[usenames,dvipsnames]{xcolor}
+\usepackage{inconsolata}
+\usepackage[T1]{fontenc}
+\usepackage{comment}
+\usepackage{xspace}
+
+\usepackage[UKenglish]{babel}
+\usepackage[calc,useregional,en-GB]{datetime2}
+\DTMlangsetup[en-GB]{ord=raise,}
+
+%=================
+% Constants
+%=================
+\newcommand{\nussoc}{National University of Singapore \\ School of Computing}
+
+\newcommand{\coursecode}{CS1010S}
+\newcommand{\coursecodesmall}{cs1010s}
+\newcommand{\coursetitle}{Programming Methodology}
+\newcommand{\semyear}{Semester I, 2021/2022}
+      
+\newcommand{\genericheader}[2]{
+  \markright{\coursecode, \semyear---#1}
+  \begin{center}
+    \Large
+    \nussoc \\
+    \coursecode: \coursetitle \\
+    \semyear \\
+    \medskip
+    {\Large \bf #2}
+  \end{center}
+}
+
+%=================
+% Page aesthetics
+%=================
+\definecolor{deepblue}{rgb}{0,0,0.5}
+\definecolor{deepred}{rgb}{0.6,0,0}
+\definecolor{deepgreen}{rgb}{0,0.5,0}
+\definecolor{gray}{gray}{0.5}
+\definecolor{green}{rgb}{0,0.5,0}
+\definecolor{lightgreen}{rgb}{0,0.7,0}
+\definecolor{purple}{rgb}{0.5,0,0.5}
+\definecolor{darkred}{rgb}{0.5,0,0}
+
+% Python style for highlighting
+\newcommand\pythonstyle{\lstset{
+		language=Python,
+		basicstyle=\ttfamily\color{black},%\setstretch{1},
+		stringstyle=\color{green},
+		showstringspaces=false,
+		alsoletter={1234567890},
+		%otherkeywords={\ , \}, \{},
+		keywordstyle=\color{blue},
+		emph={False,None,True,and,as,break,class,continue,def,del,elif,else,%
+      except,exec,finally,for,from,global,if,import,in,is,lambda,not,or,%
+      pass,raise,return,try,while,with,assert},
+		emphstyle=\color{orange},
+		emph={[2]self},
+		emphstyle=[2]\color{gray},
+		emph={[4]ArithmeticError,AssertionError,AttributeError,BaseException,%
+			DeprecationWarning,EOFError,Ellipsis,EnvironmentError,Exception,%
+      FloatingPointError,FutureWarning,GeneratorExit,IOError,ImportError,%
+      ImportWarning,IndentationError,IndexError,KeyError,KeyboardInterrupt,%
+      LookupError,MemoryError,NameError,NotImplemented,NotImplementedError,%
+      OSError,OverflowError,PendingDeprecationWarning,ReferenceError,%
+      RuntimeError,RuntimeWarning,StopIteration,SyntaxError,SyntaxWarning,%
+      SystemError,SystemExit,TabError,TypeError,UnboundLocalError,%
+      UnicodeDecodeError,UnicodeEncodeError,UnicodeError,%
+      UnicodeTranslateError,UnicodeWarning,UserWarning,ValueError,Warning,%
+      ZeroDivisionError,abs,all,any,bool,callable,chr,classmethod,compile,%
+      complex,copyright,credits,delattr,dict,dir,divmod,enumerate,eval,exec,%
+      exit,filter,float,frozenset,getattr,globals,hasattr,hash,help,hex,id,%
+      input,int,isinstance,issubclass,iter,len,license,list,locals,map,max,%
+      min,object,oct,open,ord,pow,print,property,quit,range,repr,reversed,%
+      round,set,setattr,slice,sorted,staticmethod,str,sum,super,tuple,type,%
+      vars,zip},
+		emphstyle=[4]\color{purple},
+		upquote=true,
+		morecomment=[s][\color{lightgreen}]{"""}{"""},
+		commentstyle=\color{red},
+		literate={>>>}{\textbf{\textcolor{darkred}{>{>}>}}}3%
+		{...}{{\textcolor{gray}{...}}}3,
+		procnamekeys={def,class},
+		procnamestyle=\color{blue},
+		escapechar=|,
+	}}
+
+
+% Python environment
+\lstnewenvironment{python}[1][]
+{
+\pythonstyle
+\lstset{#1}
+}
+{}
+
+% Python for inline
+\newcommand\pyline[1]{{\pythonstyle\lstinline!#1!}}
+\newcommand\py[1]{{\pythonstyle\lstinline!#1!}}
+\newcommand\pybf[1]{\textbf{\pythonstyle\lstinline!#1!}}
+
+\evensidemargin 35pt % Align even and odd numbered pages
+\setcounter{secnumdepth}{0} % Remove numbering on sections
+\setlength{\parindent}{0in} % Paragraph Indentation
+\setlength{\parskip}{\medskipamount} % Spaces between paragraphs
+
+% Horizontal Margins
+\setlength{\oddsidemargin}{0in} % Left margin 1 inch (0 + 1)
+\setlength{\textwidth}{6.5in} % Text width 6.5 inch (so right margin 1 inch).
+
+% Vertical Margins
+\setlength{\topmargin}{-0.5in} % Top margin 0.5 inch (-0.5 + 1)
+\setlength{\headheight}{0.25in} % Head height 0.25 inch (where page headers go)
+\setlength{\headsep}{0.25in} % Head separation 0.25 inch (between header and top line of text)
+\setlength{\textheight}{9.5in} % Text height 8.5 inch (so bottom margin 1.5 in)
+
+
+%=================
+% Macros
+%=================
+
+% Problem set header
+\newcommand{\psetheader}[2]{
+  \genericheader{#1}{#1\\#2}
+}
+
+% Info header
+\newcommand{\infoheader}[1]{%
+  \genericheader{#1}{#1}
+}
+
+%% Toggle solutions %%
+\newif\ifnotes
+\ifdefined\shownotes
+\notestrue
+\newenvironment{notes}{\par\color{green}\textbf{Instructor notes:}}{}
+\else
+\notesfalse
+\excludecomment{notes}
+\fi
+
+% Add to date
+\newcount\daycount
+\newcommand{\semDay}[1]{%
+    \DTMsaveddateoffsettojulianday{StartDate}{#1}\daycount
+    \DTMsavejulianday{newDate}{\number\daycount}
+    \DTMusedate{newDate}\xspace
+}
