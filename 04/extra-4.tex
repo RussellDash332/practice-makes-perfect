@@ -6,6 +6,8 @@
 \usepackage{enumerate}
 \usepackage{graphicx}
 \usepackage{tikz-qtree}
+\usepackage{amsmath}
+\usepackage{amssymb}
 
 % \renewcommand{\labelenumi}{\alph{enumi}.}
 % \renewcommand{\labelenumii}{(\roman{enumii})}
@@ -52,8 +54,143 @@ stepnumber=0,
 
 \medskip
 
-\section{Question 1}
+\section{Help}
+Yes, we put these functions here so that you can refer to them easily.
 \begin{python}
+def sum(term, a, next, b):
+    if a > b:
+        return 0
+    else:
+        return term(a) + sum(term, next(a), next, b)
+
+def fold(op, f, n):
+    if n == 0:
+        return f(0)
+    else:
+        return op(f(n), fold(op, f, n-1))
+
+def compose (f, g):
+    return lambda x: f(g(x))
+
+def thrice (f):
+    return compose(compose(f, f), f)
 \end{python}
 
+\section{Question 1}
+This question tests you about the left-right evaluation.
+\begin{python}
+def new_if(predicate, then, otherwise):
+    if predicate:
+        then
+    else:
+        otherwise
+
+def p(x):
+    new_if(x > 5, print(x), p(x+1))
+
+p(1) # what happens here?
+\end{python}
+
+\newpage
+
+\section{Question 2}
+It's time for a simple function nesting! What's the output of the code below?
+\begin{python}
+print((lambda x: lambda y: 2*x)(3)(4))
+\end{python}
+
+\section{Question 3}
+Let's apply the same idea from Mission 3 :D
+\begin{python}
+print(thrice(thrice)(lambda x: x-1)(27))
+\end{python}
+
+\section{Question 4}
+Nested function calls. Can you do it?
+\begin{python}
+foo = lambda y: lambda x: x(y)
+add1 = lambda x: x+1
+
+print(foo(add1(2))(foo)(add1))
+\end{python}
+
+\section{Question 5}
+Nested variable scopes. Can you do it?
+\begin{python}
+def foo(x):
+    def bar(x, y):
+        return lambda y: y(x)
+    return lambda y: bar(x, y)
+
+print(foo(lambda x: x**3)(lambda x: x**2)(lambda x: x)(4))
+\end{python}
+
+\section{Question 6}
+Try to do each subquestion within \textbf{5 minutes}. \underline{You are to use the \texttt{\bfseries fold}
+function} in all of the following questions.
+\begin{enumerate}
+\item Define a function \texttt{\bfseries between} that takes in a word as an input and returns a new
+string with "*" placed in between all consecutive words that are identical. \\
+\textbf{Sample Tests:}
+\begin{python}
+>>> between("happy")
+'hap*py'
+>>> between("oookayy")
+'o*o*okay*y'
+\end{python}
+
+\item Define a function \texttt{\bfseries check\_vowel} that takes in a word as an input and returns
+\texttt{\bfseries True} if there is at least one vowel in the word or \texttt{\bfseries False} otherwise. This is
+case-sensitive. \\
+\newpage
+\textbf{Sample Tests:}
+\begin{python}
+>>> check_vowel("qwertyjkl")
+True
+>>> check_vowel("482jfn")
+False
+\end{python}
+
+\item We have a tuple that contains some integers. Define a function \texttt{\bfseries largest} that
+takes in a tuple and returns the largest integer. \\
+\textbf{Sample Tests:}
+\begin{python}
+>>> largest((4,2,6,2,1))
+6
+>>> largest((0,0,0,0,0))
+0
+\end{python}
+\end{enumerate}
+
+\section{Question 7}
+Given a tuple containing numbers, find the number of combination of numbers that
+you can use from the tuple that can add up to a target number. Define this function
+\texttt{\bfseries no\_of\_ways} that takes in a tuple and a target number, and return the number of ways
+you can hit this target. You can only use each number once. You do not need to use
+any higher-order functions for this. \\ \\
+\textbf{Sample Tests:}
+\begin{python}
+>>> no_of_ways((4, 2, 5), 8)
+0                               # no way you can make the number 8
+>>> no_of_ways((4, 2, 5, 3), 7)
+2                               # either 2 + 5 or 4 + 3 gives 7
+>>> no_of_ways((4, 2, 5, 3, 5, 1), 5)
+4                               # either 4 + 1, 2 + 3, 5 or 5 gives 5
+\end{python}
+
+\section{Question 8}
+Define a function that returns the sum of cubes for numbers between 1 to n, using \texttt{\bfseries accumulate}.
+Recall the definition of \texttt{\bfseries accumulate} below.
+\[a_1 = a, a_n \le b\]
+\[accumulate(\oplus, base, f, a, next, b): (f(a_1) \oplus (f(a_2) \oplus (... \oplus (f(a_n) \oplus base)...)))\]
+
+\section{Question 9}
+Define the double factorial function using \texttt{\bfseries accumulate}.
+\[
+    n!! =
+    \begin{cases}
+        (n)(n-2)(n-4)\cdots(4)(2) & \text{if } \frac{n}{2} \in \mathbb{Z^+} \\
+        (n)(n-2)(n-4)\cdots(3)(1) & \text{if } \frac{n+1}{2} \in \mathbb{Z^+}
+    \end{cases}    
+\]
 \end{document}
