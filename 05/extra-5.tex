@@ -6,6 +6,8 @@
 \usepackage{enumerate}
 \usepackage{graphicx}
 \usepackage{tikz-qtree}
+\usepackage{amsmath}
+\usepackage{amssymb}
 
 % \renewcommand{\labelenumi}{\alph{enumi}.}
 % \renewcommand{\labelenumii}{(\roman{enumii})}
@@ -52,8 +54,188 @@ stepnumber=0,
 
 \medskip
 
-\section{Question 1}
+\section{Important Note}
 \begin{python}
+>>> tuple(range(8))
+(0, 1, 2, 3, 4, 5, 6, 7)
+
+>>> a = (1, 2, 3, 4)
+>>> b = tuple(map(lambda x: x*3, a))
+>>> b
+(3, 6, 9, 12)
+>>> c = tuple(filter(lambda x: x % 2 == 0, a))
+>>> c
+(2, 4)
+
+>>> d = ("abcd", "bcdghi", "ab")
+>>> e = sorted(d)
+>>> e
+['ab', 'abcd', 'bcdghi'] # a list
+
+>>> f = "apple"
+>>> g = sorted(f)
+>>> g
+['a', 'e', 'l', 'p', 'p'] # also a list
+
+# So, you can sort either a tuple or a string, but you get a list.
+# You can sort a list as well and get a list in return.
 \end{python}
 
+\section{Question 1}
+Using \texttt{\bfseries range}, \texttt{\bfseries map} and \texttt{\bfseries filter}, define the
+following functions to get the following outputs. (You can use other techniques as well)
+\begin{enumerate}[(a)]
+\item Define a function \texttt{\bfseries f1} that takes in no inputs, and returns \texttt{(6, 5, 4, 3, 2, 1, 0)}.
+
+\item Define a function \texttt{\bfseries f2} that takes in a tuple as an input, and transforms it in the following
+manner.
+\begin{python}
+>>> f2((1, 2, 3, 4, 5, 6, 7, 8))
+(1.5, 3.5, 5.5, 7.5)
+>>> f2(tuple(range(2, 17, 3)))
+(5.5, 11.5)
+\end{python}
+
+\newpage
+\item Define a function \texttt{\bfseries f3} that takes in two inputs - a tuple consisting of strings, and a word,
+and returns a new tuple that consists of strings in the original tuple that are an \textbf{anagram} of the
+word. An anagram is a word that is obtained when another word is scrambled up. (for example, "dormitory" is an
+anagram of "dirtyroom") \\
+\textbf{Sample Tests:}
+\begin{python}
+>>> words = ("toilet", "dirtyroom", "dirtyyroom", "ormitoryd")
+>>> f3(words, "dormitory")
+('dirtyroom', 'ormitoryd')
+>>> f3(words, "dirtyrooom")
+()
+\end{python}
+\end{enumerate}
+
+\section{Question 2}
+You designed a robot that is supposed to move around the house and mop the floor as it
+does. You want it to be highly efficient such that it does not ever move in a loop (i.e. its path of
+motion will never intersect). Let’s assume that it can only move north, south, east and west
+(indicated by "N", "S", "E", "W"). \\ \\
+\textbf{Using tuples only}, implement a function, \texttt{\bfseries check\_loop} that
+takes in a tuple consisting of directions it moves and returns \texttt{\bfseries True} if there exists a loop and
+\texttt{\bfseries False} otherwise. \\ \\
+\textbf{Sample Tests:}
+\begin{python}
+>>> check_loop(("N", "E", "E", "S", "W", "W", "S"))
+True # there is a loop after the first 6 moves
+>>> check_loop(tuple("NESESEENWNWS"))
+True
+\end{python}
+
+\section{Question 3}
+In the army, there exists a chain of command such that work will be allocated from a
+superior to someone else directly under his chain of command until the person with the lowest
+rank has to do all the work. We will assume that there is strictly a one-one pairing where every
+superior will only have one person directly under his command, and there are multiple
+superiors in the army. Given a tuple that indicates this hierarchy such as
+\begin{python}
+chain = (
+    ("Civilian", "Major1"), ("Corporal1", "Recruit1"),
+    ("Corporal2", "Private"), ("Major1", "Officer1"),
+    ("Major2", "Officer2"), ("Officer1", "Sergeant1"),
+    ("Sergeant1", "Corporal2"), ("Officer2", "CFC")
+    )
+\end{python}
+To understand this tuple, the rank on the left in each tuple is \textbf{directly higher-ranked} than the
+rank on the right. There are multiple hierarchies that do not intersect. \\ \\
+Define a function \texttt{\bfseries taiji} that takes in the chain of command as a tuple, and a rank, and
+returns the lowest ranking person under his command (directly or indirectly) so that he knows
+who the work will eventually go to.
+\newpage
+\textbf{Sample Tests:}
+\begin{python}
+>>> taiji(chain, "Civilian")
+'Private'
+>>> taiji(chain, "Major2")
+'CFC'
+>>> taiji(chain, "CFC")
+'CFC'
+\end{python}
+\begin{enumerate}[(a)]
+\item Use recursion to solve it.
+\item Use iteration to solve it.
+\end{enumerate}
+
+\section{Question 4}
+\textbf{\textit{(CS1010S AY20/21 Sem 1 Mock Midterm)}} \\ \\
+Flappy Bird is a mobile game, developed by Vietnam-based developer Dong Nguyen and published by .GEARS Studios,
+a small, independent game developer also based in Vietnam. The game has a side-scrolling format and the player 
+controls a bird, attempting to fly between the gaps of vertical green pipes. \\ \\
+In this problem, you will solve some problems based loosely on the game. \\ \\
+Suppose that the bird is originally at ground level (height = 0) and it needs to fly through a series of gaps 
+at various heights. In each step, the bird can move either up one level, down one level, or stay at the same 
+level. \\ \\
+The function \texttt{\bfseries can\_clear(gaps)} takes in the tuple representing the heights of each gap and
+returns \texttt{\bfseries True} if the bird can successfully clear pipes, or \texttt{\bfseries False} otherwise. \\ \\
+\textbf{Sample Execution:}
+\begin{python}
+>>> can_clear((1, 2, 1, 1))
+True
+>>> can_clear((2, 1, 1))
+False
+>>> can_clear((1, 0, 1, 1, 0))
+True
+>>> can_clear((5,))
+False
+>>> can_clear((0, 1, 1, 2, 3, 4, 5))
+True
+>>> can_clear(())
+True
+\end{python}
+\begin{enumerate}[(a)]
+\item Provide an \underline{iterative} implementation of \texttt{\bfseries can\_clear}.
+
+\item What is the order of growth in \underline{time} and in \underline{space} for the function you wrote in Part (a)?
+Briefly explain your answer.
+
+\item Provide a \underline{recursive} implementation of \texttt{\bfseries can\_clear}.
+
+\item What is the order of growth in \underline{time} and in \underline{space} for the function you wrote in Part (c)?
+Briefly explain your answer.
+
+\item Flying is not easy. Flying up costs \underline{2} units of energy per level. Staying at the same level costs 
+\underline{1} unit of energy. Luckily, flying down costs \underline{no} energy per level. \\ \\
+Implement the function \texttt{\bfseries energy\_cost(gaps)} that takes in a tuple of gap heights, and
+returns the total number of units of energy that flying through the gaps will cost. \\
+\textbf{Sample Execution:}
+\begin{python}
+>>> energy_cost((1, 2, 3))          # costs 2+2+2 = 6
+6
+>>> energy_cost((4,))               # costs 8
+8
+>>> energy_cost((1, 4, 4, 4, 0))    # costs 2+6+1+1+0 = 10
+10
+\end{python}
+
+\item Next, suppose that the bird can still fly up or down \underline{only one level in each step}, but it now has
+a \underline{limited amount of energy}. It takes 2 units of energy to fly up by one level, takes 1 unit of
+energy to stay at the same level, and takes no energy to fly down by one level. The bird will fail
+to clear a series of gaps if it is unable to reach the gap height or it does not have enough energy
+to fly through the gaps. \\ \\
+Implement the function \texttt{\bfseries enough\_energy\_to\_clear(energy, gaps)} that takes in an initial amount 
+of energy (\textbf{int}) and a tuple of gap heights, and returns \texttt{\bfseries True} if the bird can successfully 
+clear the pipes, or \texttt{\bfseries False} otherwise. \\
+\textbf{Sample Execution:}
+\begin{python}
+>>> enough_energy_to_clear(6, (1,2,3))
+True
+>>> enough_energy_to_clear(10, (1,2,3))
+True
+>>> enough_energy_to_clear(5, (1,2,3))      # not enough energy
+False
+>>> enough_energy_to_clear(6, (1,2,3,0))
+True
+>>> enough_energy_to_clear(10, (1,2,3,4,4,4,3,2,1,0))
+True
+>>> enough_energy_to_clear(10, (1,4,4,4,0)) # gap difference too big
+False
+>>> enough_energy_to_clear(0, ())
+True
+\end{python}
+\end{enumerate}
 \end{document}
