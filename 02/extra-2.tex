@@ -6,6 +6,8 @@
 \usepackage{enumerate}
 \usepackage{graphicx}
 \usepackage{tikz-qtree}
+\usepackage{amsmath}
+\usepackage{amssymb}
 
 % \renewcommand{\labelenumi}{\alph{enumi}.}
 % \renewcommand{\labelenumii}{(\roman{enumii})}
@@ -211,5 +213,34 @@ for i in range(5):
     print(i)
     i += i
 \end{python}
+
+\section{Question 8}
+You might have known about Fibonacci numbers before. But, have you known about Lucas numbers? \\ \\
+According to Wikipedia, we define Lucas numbers as follows
+\[
+    L_n =
+    \begin{cases}
+        2 & \text{if } n = 0 \\
+        1 & \text{if } n = 1 \\
+        L_{n-1} + L_{n-2} & \text{if } n > 1
+    \end{cases}
+\]
+\begin{enumerate}[(a)]
+\item Define a \textbf{recursive} function \texttt{\bfseries lucas} that takes in a \textit{nonnegative integer} $n$ and
+returns $L_n$. \textbf{(2 marks)} \\
+\textbf{Sample Tests:}
+\begin{python}
+>>> lucas(2)
+1
+>>> lucas(11)
+123
+\end{python}
+
+\item Do part (a) \textbf{iteratively}. \textbf{(3 marks)}
+
+\item \textbf{(Optional)} Define a function \texttt{\bfseries lucas2} that takes in a \textit{positive integer} $n$ and returns
+\[\frac{L_{n-1}+L_{n+1}}{5}\]
+Try to call this function for small values of $n$. Does \texttt{\bfseries lucas2} seem familiar to you?
+\end{enumerate}
 
 \end{document}
