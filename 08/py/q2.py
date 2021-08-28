@@ -17,6 +17,9 @@ general = Channel("general-helpdesk", ["Owner", "Tutor", "Student"])
 announcements = Channel("announcements", ["Owner", "Tutor"])
 secret = Channel("foobar", ["Owner"])
 
+print(general.get_name())               # #general-helpdesk
+print(secret.get_name())                # #foobar
+
 russell = Owner("Russell")
 clifton = Tutor("Clifton")
 aeron = Student("Aeron")
