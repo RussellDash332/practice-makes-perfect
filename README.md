@@ -24,6 +24,7 @@ Post-tutorial extra practice questions. Meant for educational purposes.
     make
     ```
 - For Extra Practice 8, I decided to create the abridged version, i.e. no Python sample execution. Instead of `make`, run `make q`.
+- For Mock Midterm and Finals, to recreate these PDFs without solution just run `make`, otherwise `make s`.
 
 ### Credits
 - Eric Leow Yu Quan
