@@ -35,6 +35,17 @@
   \end{center}
 }
 
+\newcommand{\mockheader}[2]{
+  \markright{\coursecode---#1}
+  \begin{center}
+    \Large
+    \nussoc \\
+    \coursecode: \coursetitle \\
+    \medskip
+    {\Large \bf #2}
+  \end{center}
+}
+
 %=================
 % Page aesthetics
 %=================
@@ -127,6 +138,9 @@
 % Problem set header
 \newcommand{\psetheader}[2]{
   \genericheader{#1}{#1\\#2}
+}
+\newcommand{\pmockheader}[2]{
+  \mockheader{#1}{#1\\#2}
 }
 
 % Info header
