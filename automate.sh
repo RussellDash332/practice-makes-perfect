@@ -12,6 +12,5 @@ for mock in Midterm Finals
 do
     cd Mock/$mock
     make
-    make s
     cd ../..
 done
