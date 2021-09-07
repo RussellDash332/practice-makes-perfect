@@ -93,7 +93,7 @@ def cumulative_prob_iterative(n, p, k):
     for i in range(k+1):
         result += choose_iterative(n, i)*(p**i)*((1-p)**(n-i))
     return result
-# Assuming choose_iterative is O(m) time
+# Assuming we use choose_iterative(n, m) which is O(m) time
 # Time: O(k^2) because for each iteration i of the loop we are doing O(i) operations.
 #       Thus the total operations needed is O(1 + 2 + 3 + ... + k) = O(k^2)
 # Space: O(1)
@@ -103,7 +103,7 @@ def cumulative_prob_recursive(n, p, k):
         return choose_iterative(n, 0)*(1-p)**n
     else:
         return cumulative_prob_recursive(n, p, k-1) + choose_iterative(n, k)*(p**k)*((1-p)**(n-k))
-# Assuming choose_iterative is O(m) time
+# Assuming we use choose_iterative(n, m) which is O(m) time
 # Time: O(k^2)
 # Space: O(k)
 
@@ -131,6 +131,12 @@ def cumulative_prob_hof(n, p, k):
 
 
 # Question 4
+
+# The master plan is to use this data structure:
+# (coins, ((b1, p1), (b2, p2), (b3, p3), ...))
+# Other formats like below are also welcome.
+# (coins, (b1, p1), (b2, p2), (b3, p3), ...)
+
 def make_account():
     return (1000, ())
 
