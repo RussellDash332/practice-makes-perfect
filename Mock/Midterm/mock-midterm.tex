@@ -8,6 +8,9 @@
 \usepackage{tikz-qtree}
 \usepackage{amsmath}
 \usepackage{amssymb}
+\usepackage{multicol}
+\usepackage{xcolor}
+\setlength{\columnsep}{5mm}
 
 % \renewcommand{\labelenumi}{\alph{enumi}.}
 % \renewcommand{\labelenumii}{(\roman{enumii})}
@@ -54,7 +57,402 @@ stepnumber=0,
 
 \medskip
 
-You have only \textbf{1 hour and 30 minutes} to solve all \textbf{FOUR (4) questions}. Good luck!
+You have only \textbf{1 hour and 45 minutes} to solve all \textbf{FOUR (4) questions}. \\
+The maximum attainable score is \textbf{75}. Good luck! \\ \\
+\textit{Prepared by Russell Saerang.}
 
+\begin{multicols*}{2}
+[
+\section{Question 1: Python Expressions [25 marks]}
+There are several parts to this problem. Answer each part \underline{\textbf{independently and separately}}. \\
+In each part, the Python snippet is entered into a Python script and then run. Determine the
+response printed by the interpreter (Python shell) and \textbf{write the exact output}. 
+If the interpreter produces an error message, or enters an infinite loop, explain why and
+\textbf{clearly state the responsible evaluation step}.
+]
+\begin{enumerate}
+\item[\textbf{A.}] 
+\begin{python}
+x, y = 3, 12
+def f(x, y):
+    x += y
+    y %= x
+    return x * y
+z, y = f(y, x), 1
+print(f(y, z - x))
+\end{python}
+\begin{flushright}
+    [5 marks]
+\end{flushright}
+
+\item[\textbf{B.}]
+\begin{python}
+p, q = (), (7, 4, 2, 5, 3)
+for r in q:
+    if r % 5 == 2:
+        p = (-1, r,) + p[1:]
+    elif r % 2 == 0:
+        p = (r,) + p + (r, -1)
+print(p)
+\end{python}
+\begin{flushright}
+    [5 marks]
+\end{flushright}
+
+\item[\textbf{C.}]
+\begin{python}
+m, p = "mutton", "python"
+mp = m+p+"ton"
+if "on" in mp:
+    if p in mp:
+        p = "p"
+        print("yum")
+    if "on" in p:
+        print("bum")
+    elif mp:
+        print("tum")
+\end{python}
+\begin{flushright}
+    [5 marks]
+\end{flushright}
+
+\item[\textbf{D.}]
+\begin{python}
+n = 420
+while n >= -1:
+    print(n)
+    n //= 3
+    if n % 2 == 0:
+        print(2*n)
+        continue
+    elif n % 7 == 1:
+        print(n/2)
+        break
+    n //= 2
+    n -= 2
+\end{python}
+\begin{flushright}
+    [5 marks]
+\end{flushright}
+
+\item[\textbf{E.}]
+\begin{python}
+def con(x, y):
+    return lambda z: y(x, z)
+def fuse(x):
+    return lambda y: x(y, y)
+why = lambda x,y: x*y
+so = lambda x,y: x**2 + y
+hard = lambda y,x: 2*x + y
+dif = con(fuse(so)(3), why)
+print(dif(fuse(hard)(2)))
+\end{python}
+\begin{flushright}
+    [5 marks]
+\end{flushright}
+\end{enumerate}
+\end{multicols*}
+
+\newpage
+\section{Question 2: Binomial Distribution [19 marks]}
+Binomial distribution is a commonly used probability distribution, especially in the field of statistics 
+and probability. It is a type of discrete probability distribution of a random variable $X$ where $X$ 
+is the number of successes in a series of trials with two given parameters, $n$ and $p$, the 
+number of trials and the probability of succeeding a single trial. \\ \\
+Mathematically, speaking suppose $X$ is a random variable with parameters $n$ and $p$. We can 
+write this as
+\[X \sim Bin(n,p)\]
+and the probability of having $k$ successes in $n$ trials can be denoted as
+\[P(X = k) = \binom{n}{k}p^k(1-p)^{n-k}\]
+Suppose we are to implement a function \colorbox{CornflowerBlue!20}{\texttt{choose}} that takes in two nonnegative integer inputs $n, k$
+and returns
+\[\binom{n}{k} = \frac{n!}{k!(n-k)!}\]
+i.e. the number of ways to pick $k$ items out of $n$ items. \\
+For the following questions you may assume that $k \le n$.
+\begin{enumerate}
+\item[\textbf{A.}]
+Provide a \underline{recursive} implementation of the function \colorbox{CornflowerBlue!20}{\texttt{choose}}. For example, 
+\texttt{\bfseries choose(10, 3)} will return \texttt{\bfseries 120}. \textbf{Note that you are not allowed to use any additional functions}.\\
+\textbf{Hint:} Divide into two cases whether you picked the $k$-th item or not. How many items left to choose for each cases?
+\begin{flushright}
+    [4 marks]
+\end{flushright}
+\item[\textbf{B.}]
+State the order of growth in terms of time and space for the function you wrote in Part (A). Briefly explain your answer.
+\begin{flushright}
+    [3 marks]
+\end{flushright}
+\item[\textbf{C.}]
+Provide an \underline{iterative} implementation of the function \colorbox{CornflowerBlue!20}{\texttt{choose}}. \textbf{Note that you are not 
+allowed to use any additional functions}.\\
+\textbf{Hint:} Note that you can express $\binom{n}{k}$ like the following.
+\[\binom{n}{k} = \frac{n!}{k!(n-k)!} = \frac{n \cdot (n-1) \cdot \ldots \cdot (n-k+1)}{1 \cdot 2 \cdot \ldots \cdot k}\]
+\begin{flushright}
+    [4 marks]
+\end{flushright}
+\item[\textbf{D.}]
+State the order of growth in terms of time and space for the function you wrote in Part (C). Briefly explain your answer.
+\begin{flushright}
+    [2 marks]
+\end{flushright}
+\item[\textbf{E.}]
+Now that we have defined the function \colorbox{CornflowerBlue!20}{\texttt{choose}}, we can find the probability that the random variable $X$ has 
+a value less than or equal to some nonnegative integer $k$. Mathematically,
+\begin{align*}
+    P(X \le k) &= P(X = 0) + P(X = 1) + \ldots + P(X = k) \\
+    &= \binom{n}{0}p^0(1-p)^{n-0} + \binom{n}{1}p^1(1-p)^{n-1} + \ldots + \binom{n}{k}p^k(1-p)^{n-k}
+\end{align*}
+The function \colorbox{CornflowerBlue!20}{\texttt{cumulative\_prob}} takes in a nonnegative integer for the number of trials, a real number as 
+probability, and an integer representing the number of successes. It returns the cumulative probability of the random variable $X$ being 
+less than or equal to the number of successes. \\ \\
+For example, \texttt{\bfseries cumulative\_prob(10, 0.5, 3)} returns \texttt{\bfseries 0.171875} because it computes the value of $P(X \le 3)$ 
+where $X$ is a binomial random variable obtained from 10 trials and success probability of 0.5.
+\begin{align*}
+    P(X \le 3) &= P(X = 0) + P(X = 1) + P(X = 2) + P(X = 3) \\
+    &= \binom{10}{0}{0.5}^0(1-0.5)^{10-0} + \binom{10}{1}{0.5}^1(1-0.5)^{10-1} \\
+    &\hspace{1cm} + \binom{10}{2}{0.5}^2(1-0.5)^{10-2} + \binom{10}{3}{0.5}^3(1-0.5)^{10-3} \\
+    &= \left(\binom{10}{0} + \binom{10}{1} + \binom{10}{2} + \binom{10}{3}\right)(0.5)^{10}s \\
+    &= (1 + 10 + 45 + 120)(0.5)^{10} \\
+    &= \frac{176}{1024} = \fbox{0.171875}
+\end{align*}
+Using the previously defined functions, provide an implementation to the function \colorbox{CornflowerBlue!20}{\texttt{cumulative\_prob}}. You may 
+assume that the given input will be a valid input, e.g. the probability given will lie in the $[0,1]$ interval.
+\begin{flushright}
+    [4 marks]
+\end{flushright}
+\item[\textbf{F.}]
+Is your implementation in Part (E) recursive or iterative? State the order of growth in terms
+of time and space of your implementation. Briefly explain your answer.
+\begin{flushright}
+    [2 marks]
+\end{flushright}
+\end{enumerate}
+
+\newpage
+\section{Question 3: Higher Order Distribution [10 marks]}
+\begin{enumerate}
+\item[\textbf{A.}]
+\textbf{[HARD]} Consider the higher-order function \colorbox{CornflowerBlue!20}{\texttt{fold}} which was taught in class.
+\begin{python}
+def fold(op, f, n):
+    if n == 0:
+        return f(0)
+    else:
+        return op(f(n), fold(op, f, n-1))
+\end{python}
+The function \colorbox{CornflowerBlue!20}{\texttt{choose}} defined in Question 2 can be defined in terms of \colorbox{CornflowerBlue!20}{\texttt{fold}} 
+as follows:
+\begin{python}
+def choose(n, k):
+    <PRE>
+    return int(fold(<T1>, <T2>, <T3>))
+\end{python}
+Please provide possible implementations for the terms \texttt{\bfseries T1}, \texttt{\bfseries T2}, and \texttt{\bfseries T3}. 
+You may optionally define other functions in \texttt{\bfseries PRE} if needed. \\ \\
+Note: You are to use the higher-order function and not solve it recursively or iteratively or use a formula.
+\begin{flushright}
+    [6 marks]
+\end{flushright}
+
+\item[\textbf{B.}]
+Consider the higher-order function \colorbox{CornflowerBlue!20}{\texttt{sum}} which was taught in class.
+\begin{python}
+def sum(term, a, next, b):
+    if a > b:
+        return 0
+    else:
+        return term(a) + sum(term, next(a), next, b)
+\end{python}
+It turns out that the function \colorbox{CornflowerBlue!20}{\texttt{cumulative\_prob}} defined in Question 2 can also be defined in terms 
+of \colorbox{CornflowerBlue!20}{\texttt{sum}} as follows:
+\begin{python}
+def cumulative_prob(n, p, k):
+    <PRE2>
+    return sum(<T4>, <T5>, <T6>, <T7>)
+\end{python}
+Please provide possible implementations for the terms \texttt{\bfseries T4}, \texttt{\bfseries T5}, \texttt{\bfseries T6}, 
+and \texttt{\bfseries T7}. You may optionally define other functions in \texttt{\bfseries PRE2} if needed. \\ \\
+Note: You are to use the higher-order function and not solve it recursively or iteratively or use a formula.
+\begin{flushright}
+    [4 marks]
+\end{flushright} 
+\end{enumerate}
+
+\newpage
+\section{Question 4: Brawl Stars! [21 marks]}
+\textbf{INSTRUCTIONS: Please read the entire question clearly before you attempt this problem!! 
+You are also not to use any Python data types which have not yet been taught in class.} \\ \\
+\textbf{Background [OK to skip]} Brawl Stars is a multiplayer online battle arena and third-person hero shooter video 
+game developed and published by the Finnish video game company Supercell. It was released worldwide on December 12, 2018 
+on iOS and Android. The game features various game modes, each with a different objective. Players can choose from a 
+selection of Brawlers, which are characters that can be controlled with on-screen joysticks in a game match. In Brawl 
+Stars, players battle against other players or AI opponents in multiple game modes. Players can choose between characters 
+called Brawlers that they have unlocked through Boxes, the Brawl Pass, the Trophy Road, or purchased through the Shop to 
+use in battles.
+\begin{flushright}
+    \textit{Source: Wikipedia}
+\end{flushright}
+
+\vspace{5 mm}
+
+You are so addicted to Brawl Stars you decided to implement a Brawl Stars account in Python. You hope that implementing such thing 
+can help you study CS1010S and play Brawl Stars at the same time. \\ \\
+Your first step is to design an account data type that stores the amount of coins the account currently has and the brawlers 
+(Brawl Stars characters) unlocked along with the power points obtained for each brawler. Your account data type should support the 
+following functions:
+
+\begin{itemize}
+\item \colorbox{CornflowerBlue!20}{\texttt{make\_account}} takes in no parameters and returns a new fresh account with 1000 coins at the start.
+\item \colorbox{CornflowerBlue!20}{\texttt{add\_coins(account, amt)}} returns a new account with \texttt{\bfseries amt} coins added to the account.
+\item \colorbox{CornflowerBlue!20}{\texttt{obtain\_powerpoint(account, brawler, points)}} returns a new account with \texttt{\bfseries points} power 
+points added to \texttt{\bfseries brawler}'s statistics. However, \textbf{2 coins} are deducted for each power point.
+\item \colorbox{CornflowerBlue!20}{\texttt{get\_coins(account)}} returns the amount of coins the \texttt{\bfseries account} currently has.
+\item \colorbox{CornflowerBlue!20}{\texttt{get\_brawlers(account)}} returns a tuple of all the existing brawlers' names from the \texttt{\bfseries account}.
+\item \colorbox{CornflowerBlue!20}{\texttt{get\_level(account, brawler)}} returns the level of the \texttt{\bfseries brawler} in the 
+\texttt{\bfseries account} based on the following table. If the \texttt{\bfseries brawler} does not exist in the \texttt{\bfseries account}, assume it has 
+0 power points.
+\end{itemize}
+
+\begin{center}
+\begin{tabular}{||c|c||} 
+\hline
+\textbf{Level} & \textbf{Points} \\ [0.5ex] 
+\hline\hline
+0 & 0 \\ 
+\hline
+1 & 1-19 \\ 
+\hline
+2 & 20-49 \\
+\hline
+3 & 50-99 \\
+\hline
+4 & 100-199 \\
+\hline
+5 & 200-549 \\
+\hline
+6 & 550 \\
+\hline
+\end{tabular}
+\end{center}
+
+Example execution:
+\begin{python}
+>>> acc = make_account()
+>>> acc2 = add_coins(acc, 300)
+>>> acc3 = obtain_powerpoint(acc2, "Shelly", 125)
+>>> get_coins(acc3)
+1050
+
+>>> get_level(acc3, "Shelly")
+4
+
+>>> acc4 = obtain_powerpoint(acc3, "Colt", 300)
+>>> acc5 = obtain_powerpoint(acc4, "Shelly", 75)
+>>> get_brawlers(acc5)
+('Shelly', 'Colt')
+
+>>> get_level(acc5, "Shelly")
+5
+
+>>> get_level(acc5, "Poco")
+0
+\end{python}
+
+\begin{enumerate}
+\item[\textbf{A.}]
+Decide on an implementation for the account object and implement \colorbox{CornflowerBlue!20}{\texttt{make\_account}}. 
+Describe how the state is stored in your implementation for \texttt{\bfseries acc5}.
+\begin{flushright}
+    [3 points]
+\end{flushright}
+
+\item[\textbf{B.}]
+Implement the function \colorbox{CornflowerBlue!20}{\texttt{add\_coins(account, amt)}}.
+\begin{flushright}
+    [2 points]
+\end{flushright}
+
+\item[\textbf{C.}]
+Implement the function \colorbox{CornflowerBlue!20}{\texttt{obtain\_powerpoint(account, brawler, points)}}. You may assume that 
+the power points that you have to pay for will not exceed your current coins balance.
+\begin{flushright}
+    [4 points]
+\end{flushright}
+
+\item[\textbf{D.}]
+Implement the function \colorbox{CornflowerBlue!20}{\texttt{get\_coins(account)}}.
+\begin{flushright}
+    [2 points]
+\end{flushright}
+
+\item[\textbf{E.}]
+Implement the function \colorbox{CornflowerBlue!20}{\texttt{get\_brawlers(account)}}. The alphabetic order of the brawlers is not important.
+\begin{flushright}
+    [3 points]
+\end{flushright}
+
+\item[\textbf{F.}]   
+Implement the function \colorbox{CornflowerBlue!20}{\texttt{get\_level(account, brawler)}}.
+\begin{flushright}
+    [3 points]
+\end{flushright}
+
+\item[\textbf{G.}]   
+\textbf{[Cash Overflow!]} It turns out that at some point, you might have more than 550 power points in a single brawler. 
+You want to prevent a brawler from having more than 550 points, so the excess power points will simply be converted back into 
+\textbf{2 coins} for each power point. For example, if you initially have a brawler with 400 power points and you obtain another 200 
+power points, you will max out that brawler and get 100 extra coins as a "refund". \\ \\
+Modify the \colorbox{CornflowerBlue!20}{\texttt{obtain\_powerpoint}} function such that it can cater to this problem.
+\begin{flushright}
+    [4 points]
+\end{flushright}
+\end{enumerate}
+
+\newpage
+\section{Appendix}
+The following are some functions that were introduced in class. For your reference, they are
+reproduced here.
+\begin{python}
+def sum(term, a, next, b):
+    if a > b:
+        return 0
+    else:
+    return term(a) + sum(term, next(a), next, b)
+
+def product(term, a, next, b):
+    if a > b:
+        return 1
+    else:
+        return term(a) * product(term, next(a), next, b)
+
+def fold(op, f, n):
+    if n == 0:
+        return f(0)
+    else:
+        return op(f(n), fold(op, f, n-1))
+
+def enumerate_interval(low, high):
+    return tuple(range(low,high+1))
+
+def map(fn, seq):
+    if seq == ():
+        return ()
+    else:
+        return (fn(seq[0]),) + map(fn, seq[1:])
+
+def filter(pred, seq):
+    if seq == ():
+        return ()
+    elif pred(seq[0]):
+        return (seq[0],) + filter(pred, seq[1:])
+    else:
+        return filter(pred, seq[1:])
+
+def accumulate(fn, initial, seq):
+    if seq == ():
+        return initial
+    else:
+        return fn(seq[0], accumulate(fn, initial, seq[1:]))
+\end{python}
 
 \end{document}
