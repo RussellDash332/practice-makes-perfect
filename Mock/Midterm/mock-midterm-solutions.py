@@ -1,69 +1,19 @@
 # Question 1
 """
-1806
-"""
-##x, y = 3, 12
-##def f(x, y):
-##    x += y
-##    y %= x
-##    return x * y
-##z, y = f(y, x), 1
-##print(f(y, z - x))
+(Unnerfed)
+1A: 1806
+1B: (-1, 2, -1, 7, 4, -1)
+1C: yum tum
+1D: 420 280 140 92 46 7.5
+1E: 72
 
+(Nerfed)
+1A: -27
+1B: (2, 7, 2, 3, 1)
+1C: hum bum
+1D: 280 92 7
+1E: 34
 """
-(-1, 2, -1, 7, 4, -1)
-"""
-##p, q = (), (7, 4, 2, 5, 3)
-##for r in q:
-##    if r % 5 == 2:
-##        p = (-1, r,) + p[1:]
-##    elif r % 2 == 0:
-##        p = (r,) + p + (r, -1)
-##print(p)
-
-"""
-yum tum
-"""
-##m, p = "mutton", "python"
-##mp = m+p+"ton"
-##if "on" in mp:
-##    if p in mp:
-##        p = "p"
-##        print("yum")
-##    if "on" in p:
-##        print("bum")
-##    elif mp:
-##        print("tum")
-
-"""
-420 280 140 92 46 7.5
-"""
-##n = 420
-##while n >= -1:
-##    print(n)
-##    n //= 3
-##    if n % 2 == 0:
-##        print(2*n)
-##        continue
-##    elif n % 7 == 1:
-##        print(n/2)
-##        break
-##    n //= 2
-##    n -= 2
-
-"""
-72
-"""
-##def con(x, y):
-##    return lambda z: y(x, z)
-##def fuse(x):
-##    return lambda y: x(y, y)
-##why = lambda x,y: x*y
-##so = lambda x,y: x**2 + y
-##hard = lambda y,x: 2*x + y
-##dif = con(fuse(so)(3), why)
-##print(dif(fuse(hard)(2)))
-
 
 
 # Question 2

@@ -76,10 +76,8 @@ If the interpreter produces an error message, or enters an infinite loop, explai
 x, y = 3, 12
 def f(x, y):
     x += y
-    y %= x
     return x * y
-z, y = f(y, x), 1
-print(f(y, z - x))
+print(f(y, -x))
 \end{python}
 \begin{flushright}
     [5 marks]
@@ -90,9 +88,9 @@ print(f(y, z - x))
 p, q = (), (7, 4, 2, 5, 3)
 for r in q:
     if r % 5 == 2:
-        p = (-1, r,) + p[1:]
-    elif r % 2 == 0:
-        p = (r,) + p + (r, -1)
+        p = (r,) + p
+    else:
+        p += (r - 2,)
 print(p)
 \end{python}
 \begin{flushright}
@@ -102,34 +100,34 @@ print(p)
 \item[\textbf{C.}]
 \begin{python}
 m, p = "mutton", "python"
-mp = m+p+"ton"
-if "on" in mp:
-    if p in mp:
-        p = "p"
-        print("yum")
-    if "on" in p:
-        print("bum")
-    elif mp:
-        print("tum")
+mp = p[:4] + m[-2:]
+if p not in mp:
+    print("yum")
+else:
+    print("hum")
+if "on" in p:
+    print("bum")
+elif mp:
+    print("tum")
 \end{python}
 \begin{flushright}
     [5 marks]
 \end{flushright}
 
+\hspace{2 cm}
+
 \item[\textbf{D.}]
 \begin{python}
 n = 420
-while n >= -1:
-    print(n)
+while n >= 1:
     n //= 3
     if n % 2 == 0:
         print(2*n)
         continue
     elif n % 7 == 1:
-        print(n/2)
+        print(n//2)
         break
-    n //= 2
-    n -= 2
+    n -= 10
 \end{python}
 \begin{flushright}
     [5 marks]
@@ -137,15 +135,13 @@ while n >= -1:
 
 \item[\textbf{E.}]
 \begin{python}
-def con(x, y):
-    return lambda z: y(x, z)
+def con(x):
+    return lambda y: y(y(x))
 def fuse(x):
-    return lambda y: x(y, y)
-why = lambda x,y: x*y
-so = lambda x,y: x**2 + y
-hard = lambda y,x: 2*x + y
-dif = con(fuse(so)(3), why)
-print(dif(fuse(hard)(2)))
+    return lambda y: x(x(y))
+much = lambda x: x+1
+d = lambda x: 4*x
+print(con(fuse(d)(2))(much))
 \end{python}
 \begin{flushright}
     [5 marks]
