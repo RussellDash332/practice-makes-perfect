@@ -154,11 +154,8 @@ print(con(fuse(d)(2))(much))
 Binomial distribution is a commonly used probability distribution, especially in the field of statistics 
 and probability. It is a type of discrete probability distribution of a random variable $X$ where $X$ 
 is the number of successes in a series of trials with two given parameters, $n$ and $p$, the 
-number of trials and the probability of succeeding a single trial. \\ \\
-Mathematically, speaking suppose $X$ is a random variable with parameters $n$ and $p$. We can 
-write this as
-\[X \sim Bin(n,p)\]
-and the probability of having $k$ successes in $n$ trials can be denoted as
+number of trials and the probability of succeeding a single trial, respectively. \\ \\
+The probability of having $k$ successes in $n$ trials can be denoted as
 \[P(X = k) = \binom{n}{k}p^k(1-p)^{n-k}\]
 Suppose we are to implement a function \colorbox{CornflowerBlue!20}{\texttt{choose}} that takes in two nonnegative integer inputs $n, k$
 and returns
@@ -169,7 +166,8 @@ For the following questions you may assume that $k \le n$.
 \item[\textbf{A.}]
 Provide a \underline{recursive} implementation of the function \colorbox{CornflowerBlue!20}{\texttt{choose}}. For example, 
 \texttt{\bfseries choose(10, 3)} will return \texttt{\bfseries 120}. \textbf{Note that you are not allowed to use any additional functions}.\\
-\textbf{Hint:} Divide into two cases whether you picked the $k$-th item or not. How many items left to choose for each cases?
+\textbf{Hint:} Suppose we have $m$ items left to pick. Divide into two cases whether you picked the $k$-th item or not. How many items left to 
+choose and how many items remaining that can be chosen for each cases?
 \begin{flushright}
     [4 marks]
 \end{flushright}
@@ -182,7 +180,8 @@ State the order of growth in terms of time and space for the function you wrote 
 Provide an \underline{iterative} implementation of the function \colorbox{CornflowerBlue!20}{\texttt{choose}}. \textbf{Note that you are not 
 allowed to use any additional functions}.\\
 \textbf{Hint:} Note that you can express $\binom{n}{k}$ like the following.
-\[\binom{n}{k} = \frac{n!}{k!(n-k)!} = \frac{n \cdot (n-1) \cdot \ldots \cdot (n-k+1)}{1 \cdot 2 \cdot \ldots \cdot k}\]
+\[\binom{n}{k} = \frac{n!}{k!(n-k)!} = \frac{n \cdot (n-1) \cdot \ldots \cdot (n-k+1)}{1 \cdot 2 \cdot \ldots \cdot k} = \frac{n}{1} \cdot 
+\frac{(n-1)}{2} \cdot \ldots \cdot \frac{(n-k+1)}{k}\]
 \begin{flushright}
     [4 marks]
 \end{flushright}
@@ -193,7 +192,7 @@ State the order of growth in terms of time and space for the function you wrote 
 \end{flushright}
 \item[\textbf{E.}]
 Now that we have defined the function \colorbox{CornflowerBlue!20}{\texttt{choose}}, we can find the probability that the random variable $X$ has 
-a value less than or equal to some nonnegative integer $k$. Mathematically,
+a value less than or equal to some nonnegative integer $k$. Mathematically speaking,
 \begin{align*}
     P(X \le k) &= P(X = 0) + P(X = 1) + \ldots + P(X = k) \\
     &= \binom{n}{0}p^0(1-p)^{n-0} + \binom{n}{1}p^1(1-p)^{n-1} + \ldots + \binom{n}{k}p^k(1-p)^{n-k}
@@ -202,7 +201,7 @@ The function \colorbox{CornflowerBlue!20}{\texttt{cumulative\_prob}} takes in a 
 probability, and an integer representing the number of successes. It returns the cumulative probability of the random variable $X$ being 
 less than or equal to the number of successes. \\ \\
 For example, \texttt{\bfseries cumulative\_prob(10, 0.5, 3)} returns \texttt{\bfseries 0.171875} because it computes the value of $P(X \le 3)$ 
-where $X$ is a binomial random variable obtained from 10 trials and success probability of 0.5.
+where $X$ is a binomial random variable obtained from 10 trials and success probability of 0.5. This means $n = 10$, $p = 0.5$, and $k = 3$.
 \begin{align*}
     P(X \le 3) &= P(X = 0) + P(X = 1) + P(X = 2) + P(X = 3) \\
     &= \binom{10}{0}{0.5}^0(1-0.5)^{10-0} + \binom{10}{1}{0.5}^1(1-0.5)^{10-1} \\
@@ -212,7 +211,11 @@ where $X$ is a binomial random variable obtained from 10 trials and success prob
     &= \frac{176}{1024} = \fbox{0.171875}
 \end{align*}
 Using the previously defined functions, provide an implementation to the function \colorbox{CornflowerBlue!20}{\texttt{cumulative\_prob}}. You may 
-assume that the given input will be a valid input, e.g. the probability given will lie in the $[0,1]$ interval.
+assume that the given input will be a valid input, e.g. the probability given will lie in the $[0,1]$ interval. \\
+\textbf{Hint:} Remember that
+\[P(X = k) = \binom{n}{k}p^k(1-p)^{n-k}\]
+for any nonnegative integer $k \le n$. Since we have implemented $\binom{n}{k}$ with \colorbox{CornflowerBlue!20}{\texttt{choose}}, we can 
+calculate $P(X \le k)$ right away!
 \begin{flushright}
     [4 marks]
 \end{flushright}
