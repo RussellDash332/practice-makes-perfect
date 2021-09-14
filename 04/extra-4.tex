@@ -69,10 +69,10 @@ def fold(op, f, n):
     else:
         return op(f(n), fold(op, f, n-1))
 
-def compose (f, g):
+def compose(f, g):
     return lambda x: f(g(x))
 
-def thrice (f):
+def thrice(f):
     return compose(compose(f, f), f)
 \end{python}
 
