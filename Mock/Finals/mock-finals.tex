@@ -57,14 +57,14 @@ stepnumber=0,
 
 \medskip
 
-You have only \textbf{1 hour and 30 minutes} to solve all \textbf{FOUR (4) questions}. \\
-The maximum attainable score is \textbf{80}. Good luck! \\ \\
-Prepared by Russell Saerang.
+You have only \textbf{2 hours} to solve all \textbf{FIVE (5) questions}. \\
+The maximum attainable score is \textbf{100}. Good luck! \\ \\
+\textit{Prepared by Russell Saerang.}
 
 \begin{multicols*}{2}
 [
-\section{Question 1: Python Expressions [25 marks]}
-There are several parts to this problem. Answer each part \underline{\textbf{independently and separately}}. \\ \\
+\section{Question 1: Python Expressions [30 marks]}
+There are several parts to this problem. Answer each part \underline{\textbf{independently and separately}}. \\
 In each part, the Python snippet is entered into a Python script and then run. Determine the
 response printed by the interpreter (Python shell) and \textbf{write the exact output}. 
 If the interpreter produces an error message, or enters an infinite loop, explain why and
@@ -73,7 +73,12 @@ If the interpreter produces an error message, or enters an infinite loop, explai
 \begin{enumerate}
 \item[\textbf{A.}] 
 \begin{python}
-Yo
+a = [0, 1]
+b = [[1], [[2]]]
+b.extend(a)
+print(b)
+a.append(a)
+print(b)
 \end{python}
 \begin{flushright}
     [5 marks]
@@ -81,7 +86,14 @@ Yo
 
 \item[\textbf{B.}]
 \begin{python}
-"foo"
+d, msp = {}, "mississippi"
+for x in msp:
+    if x not in d:
+        d[x] = 1
+    else:
+        d[x] += 1
+        d[d[x]] = 1
+print(d)
 \end{python}
 \begin{flushright}
     [5 marks]
@@ -89,7 +101,16 @@ Yo
 
 \item[\textbf{C.}]
 \begin{python}
-bin
+kh, z = "kenghwee", "zoink"
+sus = 0
+for s in kh:
+    if s in z:
+        sus += 1
+    if s == "e":
+        print(sus)
+    elif s > "k":
+        sus *= 2
+print(sus)
 \end{python}
 \begin{flushright}
     [5 marks]
@@ -97,7 +118,17 @@ bin
 
 \item[\textbf{D.}]
 \begin{python}
-NameError
+def debug(s):
+    try:
+        return s + 123
+    except ValueError:
+        return str(s) + "123"
+    except Exception:
+        return "F"
+    except:
+        return "FF"
+for q in ["Gday", 42, [0]]:
+    print(debug(q))
 \end{python}
 \begin{flushright}
     [5 marks]
@@ -105,7 +136,27 @@ NameError
 
 \item[\textbf{E.}]
 \begin{python}
-print
+def bar(z):
+    return lambda r: baz(r - 1) \
+            if r > 5 else r + z
+def baz(r):
+    return lambda z: bar(z // 2) \
+            if z > 0 else 5
+print(baz(4)(100)(4))
+\end{python}
+\begin{flushright}
+    [5 marks]
+\end{flushright}
+
+\item[\textbf{F.}]
+\begin{python}
+def p(p, q):
+    print(p)
+    return q(p + q(p))
+def q(q):
+    print(q)
+    return q + q
+print(p(2, q))
 \end{python}
 \begin{flushright}
     [5 marks]
@@ -114,26 +165,351 @@ print
 \end{multicols*}
 
 \newpage
-\section{Question 2}
+\section{Question 2: Plagiarism [28 marks]}
+Ben Bitdiddle is back as a CS1010Z lecturer and he decided to investigate how the plagiarism checker works in the module! \\ \\
+Suppose we represent an assessment's list of submissions with a list of answer data. Each answer data is represented as a 
+\colorbox{CornflowerBlue!20}{\texttt{\textbf{list}}} containing the \textbf{name} of the answer submitter, the \textbf{time} of 
+submission (\colorbox{CornflowerBlue!20}{\texttt{\textbf{str}}}, in HHMM format), and the \textbf{answer} (\colorbox{CornflowerBlue!20}{\texttt{\textbf{str}}}) itself. \\
+For example, suppose a question is answered by six people:
+\begin{python}
+answers = [
+    ["Russell", "0930", "recursion"], ["Keng Hwee", "1020", "recursive"],
+    ["Jonathan", "1021", "recurse"], ["Wei Han", "1100", "recursion"],
+    ["Gerald", "1104", "recursion tree"], ["Hoi Yin", "1216", "recurse"]
+]
+\end{python}
 \begin{enumerate}
 \item[\textbf{A.}]
+\textbf{[Warm-up]} One of the requirements for the plagiarism checker is the time difference between two submissions. Implement the 
+function \colorbox{CornflowerBlue!20}{\texttt{minutes(time)}} that takes in a \textbf{string} (\colorbox{CornflowerBlue!20}{\texttt{\textbf{str}}}) 
+and returns the number of minutes that has passed since the first minute of the day. For example, \texttt{minutes("0912")} returns \texttt{552}.
+\begin{flushright}
+    [2 marks]
+\end{flushright}
+
+\item[\textbf{B.}]
+Implement the function \colorbox{CornflowerBlue!20}{\texttt{get\_answer(answers, name)}} that takes as input an answers list 
+(\colorbox{CornflowerBlue!20}{\texttt{\textbf{list}}} of \colorbox{CornflowerBlue!20}{\texttt{\textbf{list}}}), and a \textbf{name} 
+(\colorbox{CornflowerBlue!20}{\texttt{\textbf{str}}}). Return \textbf{name}'s answer on the answers list. If \textbf{name} is not found, return 
+\colorbox{CornflowerBlue!20}{\texttt{\textbf{None}}}.\\
+Sample execution:
+\begin{python}
+>>> get_answer(answers, "Keng Hwee")
+'recursive'
+>>> get_answer(answers, "Gerald")
+'recursion tree'
+>>> get_answer(answers, "Pak")
+None
+\end{python}
+\begin{flushright}
+    [2 marks]
+\end{flushright}
+
+\item[\textbf{C.}]
+Of course, it is possible for another students to submit their answer for the first time. Implement the function \colorbox{CornflowerBlue!20}{\texttt{submit\_answer(answers, name, time, answer)}} 
+that takes as input an answers list (\colorbox{CornflowerBlue!20}{\texttt{\textbf{list}}} of \colorbox{CornflowerBlue!20}{\texttt{\textbf{list}}}), a \textbf{name} 
+(\colorbox{CornflowerBlue!20}{\texttt{\textbf{str}}}), the \textbf{time} (\colorbox{CornflowerBlue!20}{\texttt{\textbf{str}}}), and the \textbf{answer} 
+(\colorbox{CornflowerBlue!20}{\texttt{\textbf{str}}}). Modify the original answers list by adding the answer data to it. \\
+You may assume the student has never submitted any answer before. \\
+Sample execution:
+\begin{python}
+>>> submit_answer(answers, "Pak", "1247", "recursing")
+>>> answers
+[['Russell', '0930', 'recursion'], ['Keng Hwee', '1020', 'recursive'],
+ ['Jonathan', '1021', 'recurse'], ['Wei Han', '1100', 'recursion'],
+ ['Gerald', '1104', 'recursion tree'], ['Hoi Yin', '1216', 'recurse'],
+ ['Pak', '1247', 'recursing']]
+\end{python}
+\begin{flushright}
+    [4 marks]
+\end{flushright}
+
+\item[\textbf{D.}]
+Since we can implement a function to submit an answer, why not resubmitting an answer? \\
+Implement the function \colorbox{CornflowerBlue!20}{\texttt{resubmit\_answer(answers, name, time, answer)}} 
+that takes as input an answers list (\colorbox{CornflowerBlue!20}{\texttt{\textbf{list}}} of \colorbox{CornflowerBlue!20}{\texttt{\textbf{list}}}), a \textbf{name} 
+(\colorbox{CornflowerBlue!20}{\texttt{\textbf{str}}}), the new \textbf{time} (\colorbox{CornflowerBlue!20}{\texttt{\textbf{str}}}), and the new \textbf{answer} 
+(\colorbox{CornflowerBlue!20}{\texttt{\textbf{str}}}). Modify the original answers list by modifying the correct answer data. You may assume the student has already 
+submitted an answer before. \\
+Sample execution:
+\begin{python}
+>>> resubmit_answer(answers, "Russell", "1316", "iterative")
+>>> answers
+[['Russell', '1316', 'iterative'], ['Keng Hwee', '1020', 'recursive'],
+ ['Jonathan', '1021', 'recurse'], ['Wei Han', '1100', 'recursion'],
+ ['Gerald', '1104', 'recursion tree'], ['Hoi Yin', '1216', 'recurse']]
+\end{python}
+\begin{flushright}
+    [4 marks]
+\end{flushright}
+
+\item[\textbf{E.}]
+Now that we have handled incoming submissions, it's time for us to handle the current submissions. For now, CS1010Z's plagiarism technology is quite simple and 
+therefore we are going to build it from scratch. \\
+First, implement the function \colorbox{CornflowerBlue!20}{\texttt{similarity\_score(str1, str2)}} that calculates the similarity score 
+between two strings as follows:
+\begin{itemize}
+\item Ignore spacings on both strings, meaning \texttt{"bob cat"} is treated the same way as \texttt{"bobcat"}. This step will produce two new strings.
+\item If the new \colorbox{CornflowerBlue!20}{\texttt{str1}} is longer than the new \colorbox{CornflowerBlue!20}{\texttt{str2}}, then return the proportion of letters of the new 
+\colorbox{CornflowerBlue!20}{\texttt{str2}} that are in the same position as the new \colorbox{CornflowerBlue!20}{\texttt{str1}}. Otherwise return the proportion of letters of the new 
+\colorbox{CornflowerBlue!20}{\texttt{str1}} that are in the same order as the new \colorbox{CornflowerBlue!20}{\texttt{str2}}.
+\end{itemize}
+You may assume both strings are in low-capitalized. \\
+Sample execution:
+\begin{python}
+>>> similarity_score("iteration", "iterative")
+0.7777777777777778
+>>> similarity_score("iteration is cool", "iterator is fun")
+0.46153846153846156 # 6 out of 13 matches ("iterat")
+\end{python}
+\begin{flushright}
+    [6 marks]
+\end{flushright}
+
+\item[\textbf{F.}]
+After implementing the similarity scoring, we are just a method away from determing the suspects! \textbf{Using the previously defined functions}, 
+implement a function \colorbox{CornflowerBlue!20}{\texttt{blame(answers, name1, name2)}} that takes in two \textbf{distinct names inside the answers list} and verifies 
+whether both names are involved in plagiarism. Return \texttt{\bfseries True} if the time difference between both submissions is less than an hour and the similarity 
+score on the answers is at least 0.8, otherwise return \texttt{\bfseries False}. \\
+\textit{You will be heavily penalized if you do not use the function defined in the previous parts but you could have.} \\
+Sample execution:
+\begin{python}
+>>> blame(answers, "Russell", "Wei Han")
+False
+>>> blame(answers, "Keng Hwee", "Jonathan")
+True
+\end{python}
+\begin{flushright}
+    [6 marks]
+\end{flushright}
+
+\item[\textbf{G.}]
+Ben Bitdiddle finally figured out what's wrong with the current implementation of the plagiarism checker. Suppose Jonathan decides to resubmit 
+the exact same answer again:
+\begin{python}
+>>> blame(answers, "Jonathan", "Keng Hwee")
+True
+>>> resubmit_answer(answers, "Jonathan", "1700", \
+        get_answer(answers, "Jonathan"))
+>>> blame(answers, "Jonathan", "Keng Hwee")
+False
+\end{python}
+This will implicitly free Keng Hwee from the plagiarism blaming, which of course does not make any sense. \\
+Suggest an improvement on the representation such that regardless of resubmission, a student is still flagged for plagiarism due to his/her 
+past answers.
+\begin{flushright}
+    [4 marks]
+\end{flushright}
 \end{enumerate}
 
 \newpage
-\section{Question 3}
+\section{Question 3: Dictionary [22 marks]}
+Intro.
 \begin{enumerate}
 \item[\textbf{A.}]
+Part A.
+\begin{flushright}
+    [3 marks]
+\end{flushright}
+
+\item[\textbf{B.}]
+Part B.
+\begin{flushright}
+    [3 marks]
+\end{flushright}
+
+\item[\textbf{C.}]
+Part C.
+\begin{flushright}
+    [4 marks]
+\end{flushright}
+
+\item[\textbf{D.}]
+Part D.
+\begin{flushright}
+    [6 marks]
+\end{flushright}
+
+\item[\textbf{E.}]
+Part E.
+\begin{flushright}
+    [6 marks]
+\end{flushright}
 \end{enumerate}
 
 \newpage
-\section{Question 4}
-\textbf{INSTRUCTIONS: Please read the entire question clearly before you attempt this problem!! 
-You are also not to use any Python data types which have not yet been taught in class.}
+\section{Question 4: Cells at Work! [17 marks]}
+Consider the following classes.
+\begin{python}
+class Cell:
+    def __init__(self, health, damage):
+        self.health = min(100, health)
+        self.damage = damage
+        self.dead = False
+
+    def regenerate(self):
+        self.health = min(100, self.health + 20)
+
+class RedBloodCell(Cell):
+    def __init__(self, health, damage, utility):
+        super().__init__(health, damage)
+        self.utility = utility
+
+    def regenerate(self):
+        self.health = min(100, self.health + 30 * self.utility)
+\end{python}
+
 \begin{enumerate}
 \item[\textbf{A.}]
+What will be output of executing the following lines:
+\begin{python}
+>>> blood = RedBloodCell(40, 0, 1.3)
+>>> blood.health
+
+>>> blood.regenerate()
+>>> blood.health
+
+>>> blood.attack(Cell(100, 1))
+>>> blood.regenerate()
+>>> blood.health
+\end{python}
+\begin{flushright}
+    [2 marks]
+\end{flushright}
+
+\item[\textbf{B.}]
+Wilson decides to create a dead red blood cell as follows. However, he founds something weird because dead cells cannot regenerate anymore.
+\begin{python}
+>>> dead_blood = RedBloodCell(0, 0, 1.5)
+>>> dead_blood.health
+0
+>>> dead_blood.regenerate()
+>>> dead_blood.health
+45.0
+\end{python}
+Explain why does the dead cell still regenerate and modify the code above to fix this issue according to OOP principles, i.e. 
+redundant code will be penalised.
+\begin{flushright}
+    [4 marks]
+\end{flushright}
+
+\item[\textbf{C.}]
+A \colorbox{CornflowerBlue!20}{\texttt{\textbf{WhiteBloodCell}}} is also a special type of cell. Constructed by only its damage and utility, it is always created 
+with 30 health and every time it regenerates, its utility increases by 10\% of its original utility. Moreover, it can attack cells other than itself as long as 
+its own health is at least 50.
+\begin{itemize}
+\item If the attack is successful, the target cell's health will be decreased by \textbf{the product between the white blood cell's damage and utility}. Additionally, 
+if the target cell is a red blood cell, its utility will be decreased by 30\% of the original utility.
+\item If the target cell's health is less than the damage taken, it simply dies.
+\item Finally, if the attack is a success, print \texttt{\bfseries "Cell attacked!"}. Otherwise, print \texttt{\bfseries "Cell needs to regenerate..."}.
+\end{itemize}
+Sample Execution:
+\begin{python}
+>>> U1146 = WhiteBloodCell(40, 1.5)
+>>> ordinary = Cell(30, 1)
+>>> U1146.attack(U1146)     # nothing happens
+>>> U1146.attack(ordinary)
+'Cell needs to regenerate...'
+>>> ordinary.health
+30                          # ordinary is still in full health
+>>> U1146.regenerate()
+>>> U1146.attack(ordinary)
+'Cell attacked!'
+>>> ordinary.health
+0                           # ordinary is dead
+
+>>> U1147 = WhiteBloodCell(40, 1.5)
+>>> AE3803 = RedBloodCell(80, 0, 1.2)
+>>> U1147.regenerate()      # utility is now 1.65
+>>> U1147.attack(AE3803)
+'Cell attacked!'
+>>> AE3803.health
+14.0                        # 80 - 40 * 1.65
+>>> AE3803.utility
+0.84                        # 1.2 * 0.7
+\end{python}
+Provide an implementation of the class \colorbox{CornflowerBlue!20}{\texttt{\textbf{WhiteBloodCell}}} using OOP principles. Redundant code or methods will be 
+penalised.
+\begin{flushright}
+    [6 marks]
+\end{flushright}
+
+\item[\textbf{D.}]
+Right after implementing a white blood cell, Wilson decides to implement the class \colorbox{CornflowerBlue!20}{\texttt{\textbf{CancerCell}}} as follows:
+\begin{python}
+class CancerCell(RedBloodCell, WhiteBloodCell):
+    pass
+\end{python}
+Now he decides to try the implementation out with a few tests.
+\begin{python}
+>>> cancer = CancerCell(100, 1000, 1.7)
+>>> skin = Cell(50, 1)
+>>> cancer.attack(skin)
+'Cell needs to regenerate...'
+\end{python}
+Something's wrong! The cancer cell is supposed to even kill the skin cell. Explain why the mistake happens 
+and suggest a fix by modifying the code based on OOP principles.
+\begin{flushright}
+    [5 marks]
+\end{flushright}
 \end{enumerate}
+
+\section{Question 5: 42 and the Meaning of Life [3 marks]}
+Either:
+\begin{enumerate}[(a)]
+    \item explain how you think some of what you have learnt in CS1010S will be helpful for
+    you for the rest of your life and/or studies at NUS;
+    \item tell us an interesting story about your
+    experience with CS1010S this semester;
+    \item share how the COVID 19 situation has positively
+    influenced/impacted your learning in CS1010S;
+    \item \textbf{how the CS1010S Trauma Support Group has been full of memes}.
+\end{enumerate}
+\subsection{Remark}
+\textbf{The marking scheme is always like this.} \\ \\
+The student will be awarded points as long as he/she is coherent and doesn’t say something
+obviously wrong. \\ \\
+This question is designed for students who get stuck with the other questions. They can at
+least spend some time writing an essay for marks. Points will be awarded for effort. \\ \\
+Make the prof laugh out loud and you get full marks.
+\begin{flushright}
+    [3 marks]
+\end{flushright}
 
 \newpage
 \section{Appendix}
+Parts of the Python documentation is given here for your reference.
+\subsection{List Methods}
+\begin{itemize}
+\item \colorbox{CornflowerBlue!20}{\texttt{\textbf{list}.append(x)}} Add an item to the end of the list.
+\item \colorbox{CornflowerBlue!20}{\texttt{\textbf{list}.extend(iterable)}} Extend the list by appending all the items from the iterable.
+\item \colorbox{CornflowerBlue!20}{\texttt{\textbf{list}.insert(i, x)}} Insert an item at a given position.
+\item \colorbox{CornflowerBlue!20}{\texttt{\textbf{list}.remove(x)}} Remove the first item from the list whose value is $x$. It is an error if
+there is no such item.
+\item \colorbox{CornflowerBlue!20}{\texttt{\textbf{list}.pop([i])}} Remove the item at the given position in the list, and return it. If no
+index is specified, removes and returns the last item in the list.
+\item \colorbox{CornflowerBlue!20}{\texttt{\textbf{list}.clear()}} Remove all items from the list
+\item \colorbox{CornflowerBlue!20}{\texttt{\textbf{list}.index(x)}} Return zero-based index in the list of the first item whose value is $x$.
+Raises a \colorbox{CornflowerBlue!20}{\texttt{ValueError}} if there is no such item.
+\item \colorbox{CornflowerBlue!20}{\texttt{\textbf{list}.count(x)}} Return the number of times $x$ appears in the list.
+\item \colorbox{CornflowerBlue!20}{\texttt{\textbf{list}.sort(key=None, reverse=False)}} Sort the items of the list in place.
+\item \colorbox{CornflowerBlue!20}{\texttt{\textbf{list}.reverse()}} Reverse the elements of the list in place.
+\item \colorbox{CornflowerBlue!20}{\texttt{\textbf{list}.copy()}} Return a shallow copy of the list.
+\end{itemize}
 
+\subsection{Dictionary Methods}
+\begin{itemize}
+\item \colorbox{CornflowerBlue!20}{\texttt{\textbf{dict}.clear()}} Remove all items from the dictionary.
+\item \colorbox{CornflowerBlue!20}{\texttt{\textbf{dict}.copy()}} Return a shallow copy of the dictionary.
+\item \colorbox{CornflowerBlue!20}{\texttt{\textbf{dict}.items()}} Return a new view of the dictionary’s items 
+(\colorbox{CornflowerBlue!20}{\texttt{(key, value)}} pairs).
+\item \colorbox{CornflowerBlue!20}{\texttt{\textbf{dict}.keys()}} Return a new view of the dictionary’s keys.
+\item \colorbox{CornflowerBlue!20}{\texttt{\textbf{dict}.pop(key[, default])}} If \textit{key} is in the dictionary, remove it and return its value,
+else return \textit{default}. If \textit{default} is not given and \textit{key} is not in the dictionary, a 
+\colorbox{CornflowerBlue!20}{\texttt{KeyError}}
+is raised.
+\item \colorbox{CornflowerBlue!20}{\texttt{\textbf{dict}.update([other])}} Update the dictionary with the key/value pairs from other,
+overwriting existing keys. Return \colorbox{CornflowerBlue!20}{\texttt{None}}.
+\item \colorbox{CornflowerBlue!20}{\texttt{\textbf{dict}.values()}} Return a new view of the dictionary’s values.
+\end{itemize}
 \end{document}
