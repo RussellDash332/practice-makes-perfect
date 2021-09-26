@@ -93,23 +93,109 @@ def blame(answers, name1, name2):
 # in case someone has more than one submission.
 # Consequently, we might also have to slightly modify the blame function to iterate through each of one's answers.
 
-# Another possible implementation is to convert an answer data from (name, time, answer) to (name, time, answers)
+# Another possible implementation is to convert an answer directory from (name, time, answer) to (name, time, answers)
 # where answers is now a list of strings!
 
 
 ## Question 3
-d = {}
+home = {
+    'a.py': None,
+    'b': {
+        'd.py': None,
+        'e.py': None,
+    },
+    'c': {
+        'f.py': None,
+        'g': {
+            'i.py': None,
+            'j.java': None
+        },
+        'h': {}
+    }
+}
 
 # 3A
+def cd(directory, path):
+    steps = path.split("/")
+    result = directory
+    for s in steps[:-1]:
+        result = result[s]
+    return result
+"""
+print(cd(home, "c/."))
+print(cd(home['b'], "."))
+print(cd(home, "c/g/."))
+"""
 
 # 3B
+# O(level) where level is the number of levels to traverse through
+# Other implementations may have different time complexities and different notations
 
 # 3C
+def rename(directory, path, old_name, new_name):
+    d = cd(directory, path)
+    if new_name not in d:
+        for name in d:
+            if name == old_name:
+                d[new_name] = d[old_name]
+                del d[old_name]
+                return # break is also okay
+                # This way, we can prevent the RunTimeError from happening
+                # (dictionary changed size during iteration)
+
+"""
+rename(home, "c/g/.", "i.py", "j.java")
+print(home)
+rename(home, "c/g/.", "i.py", "k.py")
+print(home)
+rename(home, "c/g/.", "i.py", "l.py")
+print(home)
+"""
 
 # 3D
+def copy(directory, path, new_path):
+    d = cd(directory, path)
+    new_d = cd(directory, new_path)
+    for names in d:
+        new_d[names] = d[names]
+
+"""
+copy(home, "c/g/.", ".")
+print(home)
+"""
+
+"""
+# BONUS PART
+copy(home, ".", "c/.")
+print(home)
+"""
 
 # 3E
+def move(directory, path, new_path):
+    d = cd(directory, path)
+    new_d = cd(directory, new_path)
+    d2 = d.copy()
+    d.clear()
+    for names in d2:
+        new_d[names] = d2[names]
 
+# The reason why move(home, ".", ".") exists
+def move_wrong(directory, path, new_path):
+    d = cd(directory, path)
+    new_d = cd(directory, new_path)
+    for names in d:
+        new_d[names] = d[names]
+    d.clear()
+
+"""
+print(cd(home, "c/."))
+move(home, "c/g/.", ".")
+print(home)
+move(home, ".", ".")
+print(home)
+move(home, "c/.", "c/.")
+print(cd(home, "c/."))
+"""
 
 ## Question 4
 class Cell:
@@ -129,9 +215,9 @@ class RedBloodCell(Cell):
     def regenerate(self):
         self.health = min(100, self.health + 30 * self.utility)
 
-blood = RedBloodCell(40 , 0, 1.3)
 # 4A
 # 40, 79.0 (not 79), AttributeError, 100
+blood = RedBloodCell(40 , 0, 1.3)
 
 # 4B
 """

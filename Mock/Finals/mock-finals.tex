@@ -303,37 +303,160 @@ past answers.
 \end{enumerate}
 
 \newpage
-\section{Question 3: Dictionary [22 marks]}
-Intro.
+\section{Question 3: Terminal Trauma [21 marks]}
+After looking at the CS1010S Trauma Support Group chat, you became bored and decided to open your terminal. However, 
+you began to realize that dictionaries are haunting you inside it. \\ \\
+Suppose we model a terminal's home directory with a dictionary of dictionaries where the keys are either file names or directory names 
+and the values are \texttt{\bfseries None} if the key is a file name and a dictionary otherwise, which may contain more files and directories. \\
+For example, the home directory below contains one file and two directories containing more files.
+\begin{python}
+>>> home = {
+        'a.py': None,
+        'b': {
+            'd.py': None,
+            'e.py': None,
+        },
+        'c': {
+            'f.py': None,
+            'g': {
+                'i.py': None,
+                'j.java': None
+            },
+            'h': {} # empty directory
+        }
+    }
+\end{python}
 \begin{enumerate}
 \item[\textbf{A.}]
-Part A.
-\begin{flushright}
-    [3 marks]
-\end{flushright}
-
-\item[\textbf{B.}]
-Part B.
-\begin{flushright}
-    [3 marks]
-\end{flushright}
-
-\item[\textbf{C.}]
-Part C.
+One of the most useful command inside the terminal is \texttt{\bfseries cd}, where you can \textbf{c}hange your 
+current working \textbf{d}irectory from one to another. \\
+Implement the function \colorbox{CornflowerBlue!20}{\texttt{cd(directory, path)}} that takes in a dictionary 
+\texttt{\bfseries directory} representing a directory and a string \texttt{\bfseries path} representing the path 
+where you want to go. \\
+Note that \texttt{\bfseries path} is a series of directories that you want to go to, separated by a \texttt{\bfseries "/"} 
+and always ends with a \texttt{\bfseries "."} to indicate the end of traversal. \\ \\
+Sample execution:
+\begin{python}
+>>> cd(home, "c/.")
+{'f.py': None, 'g': {'i.py': None, 'j.java': None}, 'h': {}}
+>>> cd(home['b'], ".")
+{'d.py': None, 'e.py': None}
+>>> cd(home, "c/g/.")
+{'i.py': None, 'j.java': None}
+\end{python}
 \begin{flushright}
     [4 marks]
 \end{flushright}
 
-\item[\textbf{D.}]
-Part D.
+\item[\textbf{B.}]
+Explain the order of growth in terms of \textbf{time} of the function \colorbox{CornflowerBlue!20}{\texttt{cd(directory, path)}} that 
+you have implemented previously.
 \begin{flushright}
-    [6 marks]
+    [2 marks]
+\end{flushright}
+
+\item[\textbf{C.}]
+Besides changing your current working directory, you can rename a file as well. Implement the function 
+\colorbox{CornflowerBlue!20}{\texttt{rename(directory, path, old\_name, new\_name)}} that takes in a dictionary \texttt{\bfseries directory} representing a directory, 
+a string \texttt{\bfseries path} representing the path, and two strings \texttt{\bfseries old\_name} and \texttt{\bfseries new\_name} for the files that you want its 
+name to change. Simply rename the file name into the new name by modifying the directory itself. \\ \\
+Sample execution:
+\begin{python}
+>>> rename(home, "c/g/.", "i.py", "j.java")
+>>> cd(home, "c/g/.")
+{'i.py': None, 'j.java': None} # nothing happens
+>>> rename(home, "c/g/.", "i.py", "k.py")
+>>> cd(home, "c/g/.")
+{'j.java': None, 'k.py': None}
+>>> rename(home, "c/g/.", "i.py", "l.py")
+>>> cd(home, "c/g/.")
+{'j.java': None, 'k.py': None} # i.py doesn't exist anymore
+\end{python}
+\begin{flushright}
+    [5 marks]
+\end{flushright}
+
+\item[\textbf{D.}]
+Implement the function \colorbox{CornflowerBlue!20}{\texttt{copy(directory, path, new\_path)}} that takes in a dictionary \texttt{\bfseries directory} representing a directory, 
+a string \texttt{\bfseries path} representing the path, and a string \texttt{\bfseries new\_path} for the new path. Copy all the contents of the old directory to the new directory. \\ 
+You may assume the new directory is never contained inside the old directory. There's a reason for this assumption and you may ponder about it for the bonus part. \\ \\
+Sample execution:
+\begin{python}
+>>> copy(home, "c/g/.", ".")
+>>> home
+{
+    'a.py': None,
+    'b': {
+        'd.py': None,
+        'e.py': None
+    },
+    'c': {
+        'f.py': None,
+        'g': {
+            'i.py': None,
+            'j.java': None
+        },
+        'h': {}
+    },
+    # It's copied!
+    'i.py': None,
+    'j.java': None
+}
+
+# BONUS PART
+>>> copy(home, ".", "c/.") # what will happen?
+\end{python}
+\begin{flushright}
+    [5 + 2 marks]
 \end{flushright}
 
 \item[\textbf{E.}]
-Part E.
+Implement the function \colorbox{CornflowerBlue!20}{\texttt{move(directory, path, new\_path)}} that takes in a dictionary \texttt{\bfseries directory} representing a directory, 
+a string \texttt{\bfseries path} representing the path, and a string \texttt{\bfseries new\_path} for the new path. Move all the contents of the old directory to the new directory. \\
+Similarly, you may assume the new directory is never a proper subset of the old directory.\\ \\
+Sample execution:
+\begin{python}
+>>> cd(home, "c/.")
+{'f.py': None, 'g': {'i.py': None, 'j.java': None}, 'h': {}}
+>>> move(home, "c/g/.", ".")
+>>> home
+{
+    'a.py': None,
+    'b': {
+        'd.py': None,
+        'e.py': None
+    },
+    'c': {
+        'f.py': None,
+        'g': {}, # g is now an empty directory
+        'h': {}
+    },
+    # It's moved!
+    'i.py': None,
+    'j.java': None
+}
+>>> move(home, ".", ".")
+>>> home # nothing changes
+{
+    'a.py': None,
+    'b': {
+        'd.py': None,
+        'e.py': None
+    },
+    'c': {
+        'f.py': None,
+        'g': {},
+        'h': {}
+    },
+    'i.py': None,
+    'j.java': None
+}
+>>> move(home, "c/.", "c/.") # similarly, nothing should happen
+>>> cd(home, "c/.")
+{'f.py': None, 'g': {}, 'h': {}}
+\end{python}
 \begin{flushright}
-    [6 marks]
+    [5 marks]
 \end{flushright}
 \end{enumerate}
 
@@ -403,7 +526,7 @@ if the target cell is a red blood cell, its utility will be decreased by 30\% of
 \item If the target cell's health is less than the damage taken, it simply dies.
 \item Finally, if the attack is a success, print \texttt{\bfseries "Cell attacked!"}. Otherwise, print \texttt{\bfseries "Cell needs to regenerate..."}.
 \end{itemize}
-Sample Execution:
+Sample execution:
 \begin{python}
 >>> U1146 = WhiteBloodCell(40, 1.5)
 >>> ordinary = Cell(30, 1)
@@ -454,7 +577,7 @@ and suggest a fix by modifying the code based on OOP principles.
 \end{flushright}
 \end{enumerate}
 
-\section{Question 5: 42 and the Meaning of Life [3 marks]}
+\section{Question 5: 42 and the Meaning of Life [4 marks]}
 Either:
 \begin{enumerate}[(a)]
     \item explain how you think some of what you have learnt in CS1010S will be helpful for
@@ -472,9 +595,6 @@ obviously wrong. \\ \\
 This question is designed for students who get stuck with the other questions. They can at
 least spend some time writing an essay for marks. Points will be awarded for effort. \\ \\
 Make the prof laugh out loud and you get full marks.
-\begin{flushright}
-    [3 marks]
-\end{flushright}
 
 \newpage
 \section{Appendix}
