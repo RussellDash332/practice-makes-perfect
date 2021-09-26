@@ -93,7 +93,7 @@ def blame(answers, name1, name2):
 # in case someone has more than one submission.
 # Consequently, we might also have to slightly modify the blame function to iterate through each of one's answers.
 
-# Another possible implementation is to convert an answer directory from (name, time, answer) to (name, time, answers)
+# Another possible implementation is to convert an answer data from (name, time, answer) to (name, time, answers)
 # where answers is now a list of strings!
 
 
