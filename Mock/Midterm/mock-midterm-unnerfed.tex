@@ -305,7 +305,8 @@ following functions:
 \item \colorbox{CornflowerBlue!20}{\texttt{make\_account}} takes in no parameters and returns a new fresh account with 1000 coins at the start.
 \item \colorbox{CornflowerBlue!20}{\texttt{add\_coins(account, amt)}} returns a new account with \texttt{\bfseries amt} coins added to the account.
 \item \colorbox{CornflowerBlue!20}{\texttt{obtain\_powerpoint(account, brawler, points)}} returns a new account with \texttt{\bfseries points} power 
-points added to \texttt{\bfseries brawler}'s statistics. However, \textbf{2 coins} are deducted for each power point.
+points added to \texttt{\bfseries brawler}'s statistics. If \texttt{\bfseries brawler} hasn't been unlocked before, add it to the collection. 
+However, \textbf{2 coins} are deducted for each power point.
 \item \colorbox{CornflowerBlue!20}{\texttt{get\_coins(account)}} returns the amount of coins the \texttt{\bfseries account} currently has.
 \item \colorbox{CornflowerBlue!20}{\texttt{get\_brawlers(account)}} returns a tuple of all the existing brawlers' names from the \texttt{\bfseries account}.
 \item \colorbox{CornflowerBlue!20}{\texttt{get\_level(account, brawler)}} returns the level of the \texttt{\bfseries brawler} in the 
@@ -342,7 +343,6 @@ Example execution:
 >>> acc3 = obtain_powerpoint(acc2, "Shelly", 125)
 >>> get_coins(acc3)
 1050
-
 >>> get_level(acc3, "Shelly")
 4
 
@@ -353,7 +353,6 @@ Example execution:
 
 >>> get_level(acc5, "Shelly")
 5
-
 >>> get_level(acc5, "Poco")
 0
 \end{python}
@@ -402,7 +401,8 @@ Implement the function \colorbox{CornflowerBlue!20}{\texttt{get\_level(account, 
 You want to prevent a brawler from having more than 550 points, so the excess power points will simply be converted back into 
 \textbf{2 coins} for each power point. For example, if you initially have a brawler with 400 power points and you obtain another 200 
 power points, you will max out that brawler and get 100 extra coins as a "refund". \\ \\
-Modify the \colorbox{CornflowerBlue!20}{\texttt{obtain\_powerpoint}} function such that it can cater to this problem.
+Modify the \colorbox{CornflowerBlue!20}{\texttt{obtain\_powerpoint}} function such that it can cater to this problem. Again, may assume that 
+the power points that you have to pay for will not exceed your current coins balance.
 \begin{flushright}
     [4 marks]
 \end{flushright}
