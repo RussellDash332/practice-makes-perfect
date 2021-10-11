@@ -1,3 +1,5 @@
+% Credits: CS1010S
+
 \documentclass[epic,eepic,11pt,a4paper]{article}
 \usepackage{graphicx,bookman}
 \pagestyle{myheadings}
@@ -19,21 +21,9 @@
 \newcommand{\nussoc}{National University of Singapore \\ School of Computing}
 
 \newcommand{\coursecode}{CS1010S}
-\newcommand{\coursecodesmall}{cs1010s}
 \newcommand{\coursetitle}{Programming Methodology}
       
 \newcommand{\genericheader}[2]{
-  \markright{\coursecode---#1}
-  \begin{center}
-    \Large
-    \nussoc \\
-    \coursecode: \coursetitle \\
-    \medskip
-    {\Large \bf #2}
-  \end{center}
-}
-
-\newcommand{\mockheader}[2]{
   \markright{\coursecode---#1}
   \begin{center}
     \Large
@@ -137,29 +127,8 @@
 \newcommand{\psetheader}[2]{
   \genericheader{#1}{#1\\#2}
 }
-\newcommand{\pmockheader}[2]{
-  \mockheader{#1}{#1\\#2}
-}
 
 % Info header
 \newcommand{\infoheader}[1]{%
   \genericheader{#1}{#1}
-}
-
-%% Toggle solutions %%
-\newif\ifnotes
-\ifdefined\shownotes
-\notestrue
-\newenvironment{notes}{\par\color{green}\textbf{Instructor notes:}}{}
-\else
-\notesfalse
-\excludecomment{notes}
-\fi
-
-% Add to date
-\newcount\daycount
-\newcommand{\semDay}[1]{%
-    \DTMsaveddateoffsettojulianday{StartDate}{#1}\daycount
-    \DTMsavejulianday{newDate}{\number\daycount}
-    \DTMusedate{newDate}\xspace
 }
