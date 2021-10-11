@@ -1,0 +1,333 @@
+\input ../setup
+
+\usepackage{hyperref}
+\usepackage{listings}
+\usepackage{color}
+\usepackage{enumerate}
+\usepackage{graphicx}
+\usepackage{tikz-qtree}
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+% \renewcommand{\labelenumi}{\alph{enumi}.}
+% \renewcommand{\labelenumii}{(\roman{enumii})}
+
+\definecolor{mygreen}{rgb}{0,0.6,0}
+\definecolor{mygray}{rgb}{0.5,0.5,0.5}
+\definecolor{mymauve}{rgb}{0.58,0,0.82}
+
+
+\lstdefinestyle{normalPy}{
+language=Python,				% the language of the code
+basicstyle=\footnotesize,			% the size of the fonts that are used for the code
+numbers=left,				% where to put the line-numbers; possible values are (none, left, right)
+numberstyle=\color{mygray},		% the style that is used for the line-numbers
+stepnumber=1,				% the step between two line-numbers. If it's 1, each line will be numbered
+numbersep=5pt,				% how far the line-numbers are from the code
+backgroundcolor=\color{white},		% choose the background color; you must add \usepackage{color} or \usepackage{xcolor}
+showstringspaces=false,			% underline spaces within strings only
+showspaces=false,				% show spaces everywhere adding particular underscores; it overrides 'showstringspaces'
+showtabs=false,				% show tabs within strings adding particular underscores
+frame=shadowbox,				% adds a frame around the code
+tabsize=4,					% sets default tabsize to 4 spaces
+captionpos=t,				% sets the caption-position to bottom
+breaklines=true,				% sets automatic line breaking
+breakatwhitespace=false,			% sets if automatic breaks should only happen at whitespace
+commentstyle=\color{mygreen},    	% comment style
+keepspaces=true,                 		% keeps spaces in text, useful for keeping indentation of code (possibly needs columns=flexible)
+keywordstyle=\color{blue},       		% keyword style
+}
+
+\lstdefinestyle{consolePy}{
+stepnumber=0,
+}
+\tikzset{every tree node/.style={minimum width=2em,draw,circle},
+         blank/.style={draw=none},
+         edge from parent/.style=
+         {draw, edge from parent path={(\tikzparentnode) -- (\tikzchildnode)}},
+         level distance=1.5cm}
+
+\begin{document}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\psetheader{Extra Practice 5 Solutions}{}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\medskip
+
+\section{Question 1}
+Using \texttt{\bfseries range}, \texttt{\bfseries map} and \texttt{\bfseries filter}, define the
+following functions to get the following outputs. (You can use other techniques as well)
+\begin{enumerate}[(a)]
+\item Define a function \texttt{\bfseries f1} that takes in no inputs, and returns \texttt{(6, 5, 4, 3, 2, 1, 0)}. \\
+\textbf{Solution:}
+\begin{python}
+def f1():
+    return tuple(range(6, -1, -1))
+
+# Alternate solution
+def f1():
+    return tuple(map(lambda x: 6-x, range(7)))
+\end{python}
+
+\item Define a function \texttt{\bfseries f2} that takes in a tuple as an input, and transforms it in the following
+manner.
+\begin{python}
+>>> f2((1, 2, 3, 4, 5, 6, 7, 8))
+(1.5, 3.5, 5.5, 7.5)
+>>> f2(tuple(range(2, 17, 3)))
+(5.5, 11.5)
+\end{python}
+\textbf{Solution:}
+\begin{python}
+def f2(tup):
+    return tuple(map(lambda x: x+0.5, filter(lambda x: x%2 == 1, tup)))
+\end{python}
+
+\item Define a function \texttt{\bfseries f3} that takes in two inputs - a tuple consisting of strings, and a word,
+and returns a new tuple that consists of strings in the original tuple that are an \textbf{anagram} of the
+word. An anagram is a word that is obtained when another word is scrambled up. (for example, "dormitory" is an
+anagram of "dirtyroom") \\
+\textbf{Sample Tests:}
+\begin{python}
+>>> words = ("toilet", "dirtyroom", "dirtyyroom", "ormitoryd")
+>>> f3(words, "dormitory")
+('dirtyroom', 'ormitoryd')
+>>> f3(words, "dirtyrooom")
+()
+\end{python}
+\textbf{Solution:}
+\begin{python}
+def f3(words, w):
+    return tuple(filter(lambda x: sorted(x) == sorted(w), words))
+\end{python}
+\end{enumerate}
+
+\section{Question 2}
+You designed a robot that is supposed to move around the house and mop the floor as it
+does. You want it to be highly efficient such that it does not ever move in a loop (i.e. its path of
+motion will never intersect). Let’s assume that it can only move north, south, east and west
+(indicated by "N", "S", "E", "W"). \\ \\
+\textbf{Using tuples only}, implement a function, \texttt{\bfseries check\_loop} that
+takes in a tuple consisting of directions it moves and returns \texttt{\bfseries True} if there exists a loop and
+\texttt{\bfseries False} otherwise. \\ \\
+\textbf{Sample Tests:}
+\begin{python}
+>>> check_loop(("N", "E", "E", "S", "W", "W", "S"))
+True # there is a loop after the first 6 moves
+>>> check_loop(tuple("NESESEENWNWS"))
+True
+\end{python}
+\textbf{Solution:}
+\begin{python}
+def check_loop(moves):
+    visited = ((0, 0),) # store all the visited coordinates
+    for move in moves:
+        if move == "N":
+            visited += ((visited[-1][0], visited[-1][1] + 1),)
+        elif move == "E":
+            visited += ((visited[-1][0] + 1, visited[-1][1]),)
+        elif move == "S":
+            visited += ((visited[-1][0], visited[-1][1] - 1),)
+        elif move == "W":
+            visited += ((visited[-1][0] - 1, visited[-1][1]),)
+        if visited[-1] in visited[:-1]:
+            return True
+    return False
+\end{python}
+
+\section{Question 3}
+In the army, there exists a chain of command such that work will be allocated from a
+superior to someone else directly under his chain of command until the person with the lowest
+rank has to do all the work. We will assume that there is strictly a one-one pairing where every
+superior will only have one person directly under his command, and there are multiple
+superiors in the army. Given a tuple that indicates this hierarchy such as
+\begin{python}
+chain = (
+    ("Civilian", "Major1"), ("Corporal1", "Recruit1"),
+    ("Corporal2", "Private"), ("Major1", "Officer1"),
+    ("Major2", "Officer2"), ("Officer1", "Sergeant1"),
+    ("Sergeant1", "Corporal2"), ("Officer2", "CFC")
+    )
+\end{python}
+To understand this tuple, the rank on the left in each tuple is \textbf{directly higher-ranked} than the
+rank on the right. There are multiple hierarchies that do not intersect. \\ \\
+Define a function \texttt{\bfseries taiji} that takes in the chain of command as a tuple, and a rank, and
+returns the lowest ranking person under his command (directly or indirectly) so that he knows
+who the work will eventually go to.
+\textbf{Sample Tests:}
+\begin{python}
+>>> taiji(chain, "Civilian")
+'Private'
+>>> taiji(chain, "Major2")
+'CFC'
+>>> taiji(chain, "CFC")
+'CFC'
+\end{python}
+\begin{enumerate}[(a)]
+\item Use recursion to solve it. \\
+\textbf{Solution:}
+\begin{python}
+def taiji(chain, rank):
+    if rank not in tuple(map(lambda x: x[0], chain)):
+        return rank
+    for hi, lo in chain: # unpacking a tuple
+        if hi == rank:
+            return taiji(chain, lo)
+\end{python}
+\item Use iteration to solve it. \\
+\textbf{Solution:}
+\begin{python}
+def taiji(chain, rank):
+    while rank in tuple(map(lambda x: x[0], chain)):
+        for hi, lo in chain:
+            if hi == rank:
+                rank = lo
+                break
+    return rank
+
+# Alternate solution
+def taiji(chain, rank):
+    found = True # boolean flag
+    while found:
+        found = False
+        for hi, lo in chain:
+            if hi == rank:
+                rank = lo
+                found = True
+                break
+    return rank
+\end{python}
+\end{enumerate}
+
+\section{Question 4}
+\textbf{\textit{(CS1010S AY20/21 Sem 1 Mock Midterm)}} \\ \\
+Flappy Bird is a mobile game, developed by Vietnam-based developer Dong Nguyen and published by .GEARS Studios,
+a small, independent game developer also based in Vietnam. The game has a side-scrolling format and the player 
+controls a bird, attempting to fly between the gaps of vertical green pipes. \\ \\
+In this problem, you will solve some problems based loosely on the game. \\ \\
+Suppose that the bird is originally at ground level \texttt{(height = 0)} and it needs to fly through a series of gaps 
+at various heights. In each step, the bird can move either up one level, down one level, or stay at the same 
+level. \\ \\
+The function \texttt{\bfseries can\_clear(gaps)} takes in the tuple representing the heights of each gap and
+returns \texttt{\bfseries True} if the bird can successfully clear pipes, or \texttt{\bfseries False} otherwise. \\ \\
+\textbf{Sample Execution:}
+\begin{python}
+>>> can_clear((1, 2, 1, 1))
+True
+>>> can_clear((2, 1, 1))
+False
+>>> can_clear((1, 0, 1, 1, 0))
+True
+>>> can_clear((5,))
+False
+>>> can_clear((0, 1, 1, 2, 3, 4, 5))
+True
+>>> can_clear(())
+True
+\end{python}
+\begin{enumerate}[(a)]
+\item Provide an \underline{iterative} implementation of \texttt{\bfseries can\_clear}. \\
+\textbf{Solution:}
+\begin{python}
+def can_clear(gaps):
+    curr_height = 0
+    for height in gaps:
+        if abs(height - curr_height) > 1:
+            return False
+        curr_height = height
+    return True
+\end{python}
+
+\item What is the order of growth in \underline{time} and in \underline{space} for the function you wrote in Part (a)?
+Briefly explain your answer. \\
+\textbf{Solution:} \\
+\textit{Time: O(n), where n is the number of gaps in the tuple, as the for-loop will make a single
+pass through the tuple, checking each element for O(1) time each. \\ \\
+Space: O(1), constant space since there is a fixed number of variables and each variable only
+stores an integer.}
+
+\item Provide a \underline{recursive} implementation of \texttt{\bfseries can\_clear}. \\
+\textbf{Solution:}
+\begin{python}
+def can_clear(gaps):
+    if len(gaps) == 0:
+        return True
+    elif len(gaps) == 1:
+        return abs(gaps) <= 1
+    elif abs(gaps[-1] - gaps[-2]) <= 1:
+        return can_clear(gaps[:-1])
+    else:
+        return False
+\end{python}
+
+\item What is the order of growth in \underline{time} and in \underline{space} for the function you wrote in Part (c)?
+Briefly explain your answer. \\
+\textbf{Solution:} \\
+\textit{Time: O(n**2), where n is the length of the tuple, since there is a total of n recursive calls, and
+each call to can\_clear takes another O(n). \\ \\
+Space: O(n**2), there is a total of n recursive calls, and each call will take up space on the stack
+due to a new tuple slice being created.}
+
+\item Flying is not easy. Flying up costs \underline{2} units of energy per level. Staying at the same level costs 
+\underline{1} unit of energy. Luckily, flying down costs \underline{no} energy per level. \\ \\
+Implement the function \texttt{\bfseries energy\_cost(gaps)} that takes in a tuple of gap heights, and
+returns the total number of units of energy that flying through the gaps will cost. \\
+\textbf{Sample Execution:}
+\begin{python}
+>>> energy_cost((1, 2, 3))          # costs 2+2+2 = 6
+6
+>>> energy_cost((4,))               # costs 8
+8
+>>> energy_cost((1, 4, 4, 4, 0))    # costs 2+6+1+1+0 = 10
+10
+\end{python}
+\textbf{Solution:}
+\begin{python}
+def energy_cost(gaps):
+    gaps = (0,) + gaps
+    cost = 0
+    for i in range(len(gaps)-1):
+        dh = gaps[i+1] - gaps[i]
+        if dh > 0:
+            cost += 2 * dh
+        elif dh == 0:
+            cost += 1
+    return cost
+\end{python}
+
+\item Next, suppose that the bird can still fly up or down \underline{only one level in each step}, but it now has
+a \underline{limited amount of energy}. It takes 2 units of energy to fly up by one level, takes 1 unit of
+energy to stay at the same level, and takes no energy to fly down by one level. The bird will fail
+to clear a series of gaps if it is unable to reach the gap height or it does not have enough energy
+to fly through the gaps. \\ \\
+Implement the function \texttt{\bfseries enough\_energy\_to\_clear(energy, gaps)} that takes in an initial amount 
+of energy (\textbf{int}) and a tuple of gap heights, and returns \texttt{\bfseries True} if the bird can successfully 
+clear the pipes, or \texttt{\bfseries False} otherwise. \\
+\textbf{Sample Execution:}
+\begin{python}
+>>> enough_energy_to_clear(6, (1,2,3))
+True
+>>> enough_energy_to_clear(10, (1,2,3))
+True
+>>> enough_energy_to_clear(5, (1,2,3))      # not enough energy
+False
+>>> enough_energy_to_clear(6, (1,2,3,0))
+True
+>>> enough_energy_to_clear(10, (1,2,3,4,4,4,3,2,1,0))
+True
+>>> enough_energy_to_clear(10, (1,4,4,4,0)) # gap difference too big
+False
+>>> enough_energy_to_clear(0, ())
+True
+\end{python}
+\textbf{Solution:}
+\begin{python}
+def enough_energy_to_clear(energy, gaps):
+    return can_clear(gaps) and energy >= energy_cost(gaps)
+\end{python}
+\end{enumerate}
+
+\begin{flushright}
+\vspace{2 cm}\textbf{\textit{Solution compiled by Russell Saerang.}}
+\end{flushright}
+\end{document}
