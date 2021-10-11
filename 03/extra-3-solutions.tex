@@ -47,7 +47,7 @@ stepnumber=0,
 
 \begin{document}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\psetheader{Extra Practice 3}{}
+\psetheader{Extra Practice 3 Solutions}{}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \medskip
@@ -79,6 +79,7 @@ def lol1(n, m):
         for j in range(m):
             result += 1 
     return result
+# Time: O(nm), Space: O(1)
 \end{python}
 
 \item
@@ -89,6 +90,7 @@ def lol2(n):
         for j in range(n):
             result += 1 
     return result
+# Time: O(n**2), Space: O(1)
 \end{python}
 
 \item
@@ -98,6 +100,7 @@ def lol3(n):
     for i in range(n):
         result += 'a' 
     return result
+# Time: O(n**2), Space: O(n)
 \end{python}
 
 \newpage
@@ -109,6 +112,7 @@ def lol4(n):
         return 0
     else:
         return lol4(n - 1)
+# Time: O(n), Space: O(n)
 \end{python}
 
 \item
@@ -119,6 +123,7 @@ def lol5(n):
         for j in range(i, n):
             result += 1 
     return result
+# Time: O(n**2), Space: O(1)
 \end{python}
 
 \item
@@ -129,6 +134,7 @@ def lol6(n):
     print("CS1010S is fun!")
     lol6(n // 2)
     lol6(n // 2)
+# Time: O(1), Space: O(1)
 \end{python}
 
 \item
@@ -137,6 +143,7 @@ def lol7(n):
     for i in range(n):
         for j in range(n + 1, i):
             print("Hello, I am Baymax")
+# Time: O(n), Space: O(1)
 \end{python}
 
 \item
@@ -152,6 +159,7 @@ def lol8(n):
         b = lol8(n // 3)
         c = lol8(n // 3)
         return a + b + c
+# Time: O(n log n), Space: O(log n)
 \end{python}
 
 \item
@@ -162,6 +170,7 @@ def lol9(n):
     print("CS1010S")
     for i in range(1, 2):
         lol9(n - 1)
+# Time: O(n), Space: O(n)
 \end{python}
 \end{enumerate}
 
@@ -174,6 +183,27 @@ def lol9(n):
 \begin{center}
 \texttt{\bfseries 2 + 4 + 6 + 8 + 10}
 \end{center}
+\textbf{Solution:}
+\begin{python}
+# There are a lot of possibilities, here are the frequently used ones.
+def total():
+    return sum(lambda x: x, 2, lambda x: x + 2, 10)
+
+def total():
+    return sum(lambda x: 2*x, 1, lambda x: x + 1, 5)
+
+def total():
+    return fold(lambda x, y: x + y, lambda x: 2*x, 5)
+
+def total():
+    return fold(lambda x, y: 2*x + y, lambda x: x, 5)
+
+def total():
+    return fold(lambda x, y: x + y, lambda x: 2*x + 2, 5)
+
+def total():
+    return fold(lambda x, y: 2*x + y, lambda x: x + 1, 5)
+\end{python}
 
 \item I would like to convert a password such as "orange" into a string that comprises \textbf{only} of
 "*", depending on how long my word is. This function will be named \texttt{\bfseries convert} and
@@ -187,11 +217,43 @@ that the word will be at least one letter long. \\
 '****'
 \end{python}
 \begin{itemize}
-\item Use an iterative approach to solve this. What is the time and space complexity?
-\item Use a recursive approach to solve this. What is the time and space complexity?
-\item Use the \texttt{\bfseries fold} function to solve this.
+\item Use an iterative approach to solve this. What is the time and space complexity? \\
+\textbf{Solution:}
+\begin{python}
+# Actually Extra Practice 2
+def convert(word):
+    answer = ""
+    for i in word:
+        answer += "*"
+    return answer
+
+# Time: O(n**2) time complexity due to string concatenation
+# Space: O(n) where n is the length of the word
+\end{python}
+\item Use a recursive approach to solve this. What is the time and space complexity? \\
+\textbf{Solution:}
+\begin{python}
+def convert(word):
+    if len(word) == 1:
+        return "*"
+    return "*" + convert(word[1:])
+    # or return convert(word[:-1]) + "*"
+
+# Time: O(n**2) due to string concatenation
+# Space: O(n**2) where n is the length of the word
+# (check recursion tree)
+\end{python}
+\item Use the \texttt{\bfseries fold} function to solve this. \\
+\textbf{Solution:}
+\begin{python}
+def convert(word):
+    return fold(lambda x, y: x + y, lambda x: "*", len(word) - 1)
+\end{python}
 \item Explain if the \texttt{\bfseries sum} function can be used to solve this. If not, explain what change needs
-to be made to the original function and define it in terms of \texttt{\bfseries sum}.
+to be made to the original function and define it in terms of \texttt{\bfseries sum}. \\
+\textbf{Solution:} \\
+Note that the base case of the function is 0 but we are to return a string, so one suggestion is to change 0 on the 
+base case to an empty string then we can do similar to what we did to our solution using \texttt{\bfseries fold}.
 \end{itemize}
 
 \item Now, I would like to filter out the letters "o" and "a" because I don't really like them. Define a
@@ -204,13 +266,59 @@ removed.
 't'
 \end{python}
 \begin{itemize}
-\item Use an iterative approach to solve this. What is the time and space complexity?
-\item Use a recursive approach to solve this. What is the time and space complexity?
-\item Use the \texttt{\bfseries fold} function to solve this.
+\item Use an iterative approach to solve this. What is the time and space complexity? \\
+\textbf{Solution:}
+\begin{python}
+def remove(word):
+    answer = ""
+    for i in word:
+        if i != "o" and i != "a":
+            answer += i
+    return answer
+\end{python}
+\item Use a recursive approach to solve this. What is the time and space complexity? \\
+\textbf{Solution:}
+\begin{python}
+def remove(word):
+    if len(word) == 1:
+        if word[0] == "o" or word[0] == "a":
+            return ""
+        return word
+    if word[0] == "o" or word[0] == "a":
+        return remove(word[1:])
+    return word[0] + remove(word[1:])
+\end{python}
+\item Use the \texttt{\bfseries fold} function to solve this. \\
+\textbf{Solution:}
+\begin{python}
+def remove(word):
+    def is_oa(letter):
+        return letter == "o" or letter == "a"
+    return fold(lambda x, y: x + y,
+                lambda x: "" if is_oa(word[-1-x]) else word[-1-x],
+                len(word) - 1)
+    # You can change the indexing from -1-x to len(word)-1-x
+    # which makes more sense but longer to write
+\end{python}
 \item Explain if the \texttt{\bfseries sum} function can be used to solve this. If not, explain what change needs
-to be made to the original function and define it in terms of \texttt{\bfseries sum}.
-\item \textbf{\textit{How do you modify the functions to remove all vowels in a word?}}
+to be made to the original function and define it in terms of \texttt{\bfseries sum}. \\
+\textbf{Solution:} \\
+Similar to above, note that the base case of the function is 0 but we are to return a string, so one suggestion is to change 0 on the 
+base case to an empty string then we can do similar to what we did to our solution using \texttt{\bfseries fold}.
+\item \textbf{\textit{How do you modify the functions to remove all vowels in a word?}} \\
+\textbf{Solution:} \\
+Simply add more conditionals such as
+\begin{python}
+i != "o" and i != "a" and i != "e" and i != "i" and i != "u"
+\end{python}
+Or alternatively, create a string and use the built-in function \texttt{\bfseries in} such as
+\begin{python}
+i not in "aieou"
+\end{python}
 \end{itemize}
 \end{enumerate}
 
+\begin{flushright}
+\vspace{2 cm}\textbf{\textit{Solution compiled by Russell Saerang.}}
+\end{flushright}
 \end{document}
