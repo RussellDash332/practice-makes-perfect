@@ -50,7 +50,7 @@ stepnumber=0,
 
 \begin{document}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\psetheader{Extra Practice 8}{}
+\psetheader{Extra Practice 8 Solutions}{}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \medskip
@@ -212,6 +212,107 @@ order \texttt{\bfseries "[Name] killed [Person A], [Person B] ... [Person D]"}
 'Brendan killed Daniel, Ryan'   # must be in alphabetical order
 >>> brendan.kill(daniel)
 'Already killed'
+\end{python}
+\textbf{Solution:} \\
+Here's a possible implementation. Feel free to think of an alternative implemenation.
+\begin{python}
+class Place:
+    def __init__(self, name):
+        self.name = name
+        self.people = []
+
+    def get_name(self):
+        return self.name
+
+    def get_people(self):
+        if not self.people:
+            return "Nobody here"
+        return ", ".join(list(map(lambda x: x.get_name(),
+                                  self.people))) + f" in {self.name}"
+
+class Person:
+    def __init__(self, name):
+        self.name = name
+        self.place = None
+        self.dead = False
+        self.murderer = None
+
+    def get_name(self):
+        return self.name
+
+    def get_state(self):
+        if self.dead:
+            return f"Killed by {self.murderer.name}"
+        return "Alive"
+
+    def do_task(self, task):
+        return f"{self.name} does {task}"
+
+    def move(self, location):
+        if self.place == None:
+            message = f"{self.name} moves to {location.name}"
+        elif self.place == location:
+            return "Already here"
+        else:
+            self.place.people.remove(self)
+            message = f"{self.name} moves from {self.place.name} " + \
+                      f"to {location.name}"
+
+        location.people.append(self)
+        self.place = location
+        return message
+
+    def report(self, person):
+        if self.dead:
+            return "Ghosts cannot report"
+        elif self == person:
+            return "Cannot report oneself"
+        elif person.place != self.place:
+            return f"{person.name} is in {person.place.name}"
+        elif not person.dead:
+            return f"{person.name} is still alive"
+        else:
+            msg = f"{self.name} reports {person.name} and "
+            suspects = list(map(lambda x: x.get_name(),
+                                filter(lambda x: x != self and not x.dead,
+                                       self.place.people)))
+            if suspects:
+                msg += "suspects " + \
+                       ", ".join(suspects)
+            else:
+                msg += "nobody to suspect"
+
+            return msg
+
+class Impostor(Person):
+    def __init__(self, name, weapon):
+        super().__init__(name)
+        self.weapon = weapon
+        self.victims = []
+
+    def kill(self, person):
+        if self == person:
+            return "Cannot kill oneself"
+        elif self.place != person.place:
+            return f"{person.name} is in {person.place.name}. " + \
+                   "Cannot kill"
+        elif isinstance(person, Impostor):
+            return "Cannot kill another impostor"
+        elif person.dead:
+            return "Already killed"
+        else:
+            person.dead = True
+            person.murderer = self
+            self.victims.append(person)
+            return f"{self.name} killed {person.name} with a " + \
+                   f"{self.weapon}"
+
+    def victim_list(self):
+        if self.victims:
+            return f"{self.name} killed " + \
+                   ", ".join(sorted(map(lambda x: x.get_name(),
+                                        self.victims)))
+        return "Killed nobody"
 \end{python}
 
 \newpage
@@ -543,4 +644,133 @@ HALL OF MUTE
 >>> russell.unmute(russell)
 'Russell is not muted :)'
 \end{python}
+\textbf{Solution:} \\
+Here's a possible implementation. Feel free to think of an alternative implemenation.
+\begin{python}
+class Channel:
+    def __init__(self, name, roles):
+        self.name = f"#{name}"
+        self.permitted_roles = roles
+        self.members = []
+
+    def get_name(self):
+        return self.name
+
+    def get_permitted_roles(self):
+        return self.permitted_roles
+
+    def get_members(self):
+        return sorted(map(lambda x: x.name, self.members))
+
+    def hall_of_mute(self):
+        return sorted(map(lambda x: x.name,
+               filter(lambda x: x.muted, self.members)))
+
+class User: # @everyone
+    def __init__(self, name):
+        self.name = name # for now, we don't use Discord tags
+        self.role = None
+        self.channels = []
+        self.muted = False
+
+    def get_role(self):
+        if self.role:
+            return f"{self.name} is a {self.role}"
+        else:
+            return f"{self.name} has no role"
+        
+    def get_channels(self):
+        return sorted(map(lambda x: x.name, self.channels))
+
+    def join(self, channel):
+        if channel in self.channels:
+            return f"{self.name} has already joined {channel.name}"
+        elif self.muted:
+            return f"{self.name} is muted!"
+        else:
+            if isinstance(self, Owner) or self.role in channel.permitted_roles:
+                channel.members.append(self)
+                self.channels.append(channel)
+                return f"{self.name} joins {channel.name}"
+            else:
+                return f"{self.name} has no permission to join {channel.name}"
+
+    def message(self, channel, msg):
+        if channel not in self.channels:
+            return f"{self.name} has not joined {channel.name}"
+        elif self.muted:
+            return f"{self.name} is not allowed to send messages " + \
+                   f"in {channel.name}"
+        else:
+            return f"{channel.name} --- {self.name}: {msg}"
+
+    def mute(self, other, time, reason):
+        if other == self:
+            return "Cannot mute oneself"
+        elif self.muted:
+            return f"{self.name} is not allowed to send messages!"
+        elif other.muted:
+            return f"{other.name} is muted!"
+        elif isinstance(self, Owner):
+            other.muted = True
+            if time == None:
+                return f"{self.name} muted {other.name} indefinitely. " + \
+                       f"Reason: {reason}"
+            return f"{self.name} muted {other.name} for {time} minutes. " + \
+                   f"Reason: {reason}"
+        elif isinstance(self, Tutor):
+            if isinstance(other, Tutor):
+                return "Cannot mute a fellow tutor"
+            else:
+                other.muted = True
+                if time == None:
+                    return f"{self.name} muted {other.name} indefinitely." + \
+                           f" Reason: {reason}"
+                return f"{self.name} muted {other.name} for {time} " + \
+                       f"minutes. Reason: {reason}"
+        else:
+            return f"{self.name} doesn't have a permission to mute " + \
+                   "another user"
+
+
+    def unmute(self, other):
+        if other == self and self.muted:
+            return f"{self.name} is not allowed to send messages!"
+        elif not other.muted:
+            return f"{other.name} is not muted :)"
+        elif isinstance(self, Owner):
+            other.muted = False
+            return f"{self.name} unmuted {other.name}!"
+        elif isinstance(self, Tutor):
+            if isinstance(other, Tutor):
+                return "Cannot unmute a fellow tutor"
+            else:
+                other.muted = False
+                return f"{self.name} unmuted {other.name}!"
+        else:
+            return f"{self.name} doesn't have a permission " + \
+                   "to unmute another user"
+
+class Tutor(User):
+    def __init__(self, name):
+        super().__init__(name)
+        self.role = "Tutor"
+
+class Student(User):
+    def __init__(self, name):
+        super().__init__(name)
+        self.role = "Student"
+
+class Owner(Tutor):
+    def __init__(self, name):
+        super().__init__(name)
+        self.role = ["Owner", "Tutor", "Student"]
+
+    def get_role(self):
+        return f"{self.name} is the owner!"
+\end{python}
+
+\begin{flushright}
+\vspace{2 cm}\textbf{\textit{Solution compiled by Russell Saerang.}}
+\end{flushright}
 \end{document}
