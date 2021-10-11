@@ -1,0 +1,277 @@
+\input ../setup
+
+\usepackage{hyperref}
+\usepackage{listings}
+\usepackage{color}
+\usepackage{enumerate}
+\usepackage{graphicx}
+\usepackage{tikz-qtree}
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+% \renewcommand{\labelenumi}{\alph{enumi}.}
+% \renewcommand{\labelenumii}{(\roman{enumii})}
+
+\definecolor{mygreen}{rgb}{0,0.6,0}
+\definecolor{mygray}{rgb}{0.5,0.5,0.5}
+\definecolor{mymauve}{rgb}{0.58,0,0.82}
+
+
+\lstdefinestyle{normalPy}{
+language=Python,				% the language of the code
+basicstyle=\footnotesize,			% the size of the fonts that are used for the code
+numbers=left,				% where to put the line-numbers; possible values are (none, left, right)
+numberstyle=\color{mygray},		% the style that is used for the line-numbers
+stepnumber=1,				% the step between two line-numbers. If it's 1, each line will be numbered
+numbersep=5pt,				% how far the line-numbers are from the code
+backgroundcolor=\color{white},		% choose the background color; you must add \usepackage{color} or \usepackage{xcolor}
+showstringspaces=false,			% underline spaces within strings only
+showspaces=false,				% show spaces everywhere adding particular underscores; it overrides 'showstringspaces'
+showtabs=false,				% show tabs within strings adding particular underscores
+frame=shadowbox,				% adds a frame around the code
+tabsize=4,					% sets default tabsize to 4 spaces
+captionpos=t,				% sets the caption-position to bottom
+breaklines=true,				% sets automatic line breaking
+breakatwhitespace=false,			% sets if automatic breaks should only happen at whitespace
+commentstyle=\color{mygreen},    	% comment style
+keepspaces=true,                 		% keeps spaces in text, useful for keeping indentation of code (possibly needs columns=flexible)
+keywordstyle=\color{blue},       		% keyword style
+}
+
+\lstdefinestyle{consolePy}{
+stepnumber=0,
+}
+\tikzset{every tree node/.style={minimum width=2em,draw,circle},
+         blank/.style={draw=none},
+         edge from parent/.style=
+         {draw, edge from parent path={(\tikzparentnode) -- (\tikzchildnode)}},
+         level distance=1.5cm}
+
+\begin{document}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\psetheader{Extra Practice 4 Solutions}{}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\medskip
+
+\section{Help}
+Yes, we put these functions here so that you can refer to them easily.
+\begin{python}
+def sum(term, a, next, b):
+    if a > b:
+        return 0
+    else:
+        return term(a) + sum(term, next(a), next, b)
+
+def fold(op, f, n):
+    if n == 0:
+        return f(0)
+    else:
+        return op(f(n), fold(op, f, n-1))
+
+def compose(f, g):
+    return lambda x: f(g(x))
+
+def thrice(f):
+    return compose(compose(f, f), f)
+\end{python}
+
+\section{Question 1}
+This question tests you about the left-right evaluation.
+\begin{python}
+def new_if(predicate, then, otherwise):
+    if predicate:
+        then
+    else:
+        otherwise
+
+def p(x):
+    new_if(x > 5, print(x), p(x+1))
+
+p(1) # Infinite print; 'otherwise' part always evaluates first.
+\end{python}
+
+\newpage
+
+\section{Question 2}
+It's time for a simple function nesting! What's the output of the code below?
+\begin{python}
+print((lambda x: lambda y: 2*x)(3)(4))
+# (lambda x: lambda y: 2*x)(3)(4)
+# = (lambda y: 6)(4) = 6
+\end{python}
+
+\section{Question 3}
+Let's apply the same idea from Mission 3 :D
+\begin{python}
+print(thrice(thrice)(lambda x: x-1)(27))
+# thrice(thrice)(lambda x: x-1)(27)
+# = thrice(thrice(thrice(lambda x: x-1)))(27)
+# = thrice(thrice(lambda x: x-3))(27)
+# = thrice(lambda x: x-9)(27)
+# = (lambda x: x-27)(27) = 0
+\end{python}
+
+\section{Question 4}
+Nested function calls. Can you do it?
+\begin{python}
+foo = lambda y: lambda x: x(y)
+add1 = lambda x: x+1
+# This means foo(y)(x) = x(y) and add1(x) = x+1
+
+print(foo(add1(2))(foo)(add1))
+# foo(add1(2))(foo)(add1)
+# = foo(3)(foo)(add1)
+# = foo(3)(add1)
+# = add1(3) = 4
+\end{python}
+
+\section{Question 5}
+Nested variable scopes. Can you do it?
+\begin{python}
+def foo(x):
+    def bar(x, y):
+        return lambda y: y(x)
+    return lambda y: bar(x, y)
+# This means foo(x)(y) = bar(x, y) = lambda y: y(x)
+#                                  = lambda z: z(x) <- y is a dummy variable
+# In conclusion, foo(x)(y)(z) = z(x)
+
+print(foo(lambda x: x**3)(lambda x: x**2)(lambda x: x)(4))
+# foo(lambda x: x**3)(lambda x: x**2)(lambda x: x)(4)
+# = (lambda x: x)(lambda x: x**3)(4)
+# = (lambda x: x**3)(4) = 64
+\end{python}
+
+\section{Question 6}
+Try to do each subquestion within \textbf{5 minutes}. \underline{You are to use the \texttt{\bfseries fold}
+function} in all of the following questions.
+\begin{enumerate}
+\item Define a function \texttt{\bfseries between} that takes in a word as an input and returns a new
+string with "*" placed in between all consecutive words that are identical. \\
+\textbf{Sample Tests:}
+\begin{python}
+>>> between("happy")
+'hap*py'
+>>> between("oookayy")
+'o*o*okay*y'
+\end{python}
+\textbf{Solution:}
+\begin{python}
+def between(word):
+    # Define a function that takes in the index and see
+    # if word[idx] == word[idx+1] then add a star
+    def add_star(idx):
+        if word[idx] == word[idx+1]:
+            return word[idx] + "*"
+        return word[idx]
+    
+    return fold(lambda x, y: x + y,                 # op
+                lambda x: add_star(len(word)-1-x) \
+                          if x != 0 else word[-1],  # f
+                len(word)-1)                        # n
+\end{python}
+
+\item Define a function \texttt{\bfseries check\_vowel} that takes in a word as an input and returns
+\texttt{\bfseries True} if there is at least one vowel in the word or \texttt{\bfseries False} otherwise. This is
+case-sensitive. \\
+\textbf{Sample Tests:}
+\begin{python}
+>>> check_vowel("qwertyjkl")
+True
+>>> check_vowel("482jfn")
+False
+\end{python}
+\textbf{Solution:}
+\begin{python}
+def check_vowel(word):
+    return fold(lambda x, y: x or y,            # op
+                lambda x: word[x] in "aeiou",   # f
+                len(word) - 1)                  # n
+\end{python}
+
+\item We have a tuple that contains some integers. Define a function \texttt{\bfseries largest} that
+takes in a tuple and returns the largest integer. \\
+\textbf{Sample Tests:}
+\begin{python}
+>>> largest((4, 2, 6, 2, 1))
+6
+>>> largest((0, 0, 0, 0, 0))
+0
+\end{python}
+\textbf{Solution:}
+\begin{python}
+def largest(tup):
+    return fold(lambda x, y: max(x, y), lambda x: tup[x], len(tup) - 1)
+\end{python}
+\end{enumerate}
+
+\section{Question 7}
+Given a tuple containing numbers, find the number of combination of numbers that
+you can use from the tuple that can add up to a target number. Define this function
+\texttt{\bfseries no\_of\_ways} that takes in a tuple and a target number, and return the number of ways
+you can hit this target. You can only use each number once. You do not need to use
+any higher-order functions for this. \\ \\
+\textbf{Sample Tests:}
+\begin{python}
+>>> no_of_ways((4, 2, 5), 8)
+0                               # no way you can make the number 8
+>>> no_of_ways((4, 2, 5, 3), 7)
+2                               # either 2 + 5 or 4 + 3 gives 7
+>>> no_of_ways((4, 2, 5, 3, 5, 1), 5)
+4                               # either 4 + 1, 2 + 3, 5 or 5 gives 5
+\end{python}
+\textbf{Solution:}
+\begin{python}
+# Very similar to the counting change problem
+def no_of_ways(tup, num):
+    if num <= 0 or tup == ():
+        return 0
+    elif len(tup) == 1 and tup[0] == num:
+        return 1
+    return int(tup[0] == num) + no_of_ways(tup[1:], num - tup[0]) \
+           + no_of_ways(tup[1:], num)
+\end{python}
+
+\section{Question 8}
+Define a function that returns the sum of cubes for integers from 1 to n, using \texttt{\bfseries accumulate}.
+Recall the definition of \texttt{\bfseries accumulate} below.
+\[a_1 = a, a_n \le b\]
+\[\text{accumulate}(\oplus, \text{base}, f, a, \text{next}, b): (f(a_1) \oplus (f(a_2) \oplus (... \oplus (f(a_n) \oplus \text{base})...)))\]
+\textbf{Solution:}
+\begin{python}
+def sum_of_cubes(n):
+    return accumulate(lambda x, y: x + y,       # op
+                      0, lambda x: x**3,        # base, f
+                      1, lambda x: x + 1, n)    # a, next, b
+\end{python}
+
+\newpage
+\section{Question 9}
+Define the double factorial function using \texttt{\bfseries accumulate}.
+\[
+    n!! =
+    \begin{cases}
+        (n)(n-2)(n-4)\cdots(4)(2) & \text{if } \frac{n}{2} \in \mathbb{Z^+} \\
+        (n)(n-2)(n-4)\cdots(3)(1) & \text{if } \frac{n+1}{2} \in \mathbb{Z^+}
+    \end{cases}    
+\]
+\textbf{Solution:}
+\begin{python}
+def double_factorial(n):
+    return accumulate(lambda x, y: x*y,                 # op
+                      1, lambda x: x,                   # base, f
+                      2 - (n % 2), lambda x: x + 2, n)  # a, next, b
+
+# Idea:
+# base if definitely 1 when we want to set this is a product
+# of a sequence.
+# Note that next should be an increment by 2, but now it leaves
+# us the variable a, which might seem unintuitive, but the idea
+# is just that we want a = 1 when n is odd and a = 2 when n is even.
+\end{python}
+
+\begin{flushright}
+\vspace{2 cm}\textbf{\textit{Solution compiled by Russell Saerang.}}
+\end{flushright}
+\end{document}
