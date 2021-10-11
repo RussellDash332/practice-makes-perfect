@@ -3,6 +3,7 @@ for dir in 01 02 03 04 05 06 07 08 09
 do
     cd $dir
     make -B
+    make s -B
     cd ..
 done
 
@@ -14,3 +15,7 @@ do
     make -B
     cd ../..
 done
+
+cd Mock/Midterm
+make u -B
+cd ../..
