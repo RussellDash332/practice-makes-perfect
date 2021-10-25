@@ -213,8 +213,21 @@ order \texttt{\bfseries "[Name] killed [Person A], [Person B] ... [Person D]"}
 >>> brendan.kill(daniel)
 'Already killed'
 \end{python}
+
+\newpage
+
 \textbf{Solution:} \\
-Here's a possible implementation. Feel free to think of an alternative implemenation.
+Here's a possible implementation. Feel free to think of an alternative implemenation. \\ \\
+\textbf{Disclaimer:} \\
+By right, any use or query of the \texttt{\bfseries name} attribute inside functions other than the constructor 
+method and the \texttt{\bfseries get\_name()} method should be replaced by the \texttt{\bfseries get\_name()} method 
+due to abstraction. \\
+For example, \texttt{\bfseries x.name} should be replaced by \texttt{\bfseries x.get\_name()}. \\ \\
+I will replace them by directly accessing the name attribute just because of space constraints, 
+but you shouldn't during the actual PE or finals :) \\ \\
+Likewise, if you define another getter functions that returns the attribute as is, for example, 
+\texttt{\bfseries get\_place(self)} that simply returns \texttt{\bfseries self.place}, then you should do the same as 
+the \texttt{\bfseries get\_name()} method. Otherwise, you will be considered breaking abstraction.
 \begin{python}
 class Place:
     def __init__(self, name):
@@ -227,7 +240,7 @@ class Place:
     def get_people(self):
         if not self.people:
             return "Nobody here"
-        return ", ".join(list(map(lambda x: x.get_name(),
+        return ", ".join(list(map(lambda x: x.name,
                                   self.people))) + f" in {self.name}"
 
 class Person:
@@ -273,12 +286,11 @@ class Person:
             return f"{person.name} is still alive"
         else:
             msg = f"{self.name} reports {person.name} and "
-            suspects = list(map(lambda x: x.get_name(),
+            suspects = list(map(lambda x: x.name,
                                 filter(lambda x: x != self and not x.dead,
                                        self.place.people)))
             if suspects:
-                msg += "suspects " + \
-                       ", ".join(suspects)
+                msg += "suspects " + ", ".join(suspects)
             else:
                 msg += "nobody to suspect"
 
@@ -310,7 +322,7 @@ class Impostor(Person):
     def victim_list(self):
         if self.victims:
             return f"{self.name} killed " + \
-                   ", ".join(sorted(map(lambda x: x.get_name(),
+                   ", ".join(sorted(map(lambda x: x.name,
                                         self.victims)))
         return "Killed nobody"
 \end{python}
@@ -645,7 +657,17 @@ HALL OF MUTE
 'Russell is not muted :)'
 \end{python}
 \textbf{Solution:} \\
-Here's a possible implementation. Feel free to think of an alternative implemenation.
+Here's a possible implementation. Feel free to think of an alternative implemenation. \\ \\
+\textbf{Disclaimer:} \\
+By right, any use or query of the Channel class' \texttt{\bfseries name} and \texttt{\bfseries permitted\_roles} attribute 
+inside functions other than the constructor method and the respective getter methods should be replaced by 
+the \texttt{\bfseries get\_name()} and \texttt{\bfseries get\_permitted\_roles()} method themselves due to abstraction. \\
+For example, \texttt{\bfseries channel.permitted\_roles} should be replaced by \texttt{\bfseries channel.get\_permitted\_roles()}. \\ \\
+I will replace them by directly accessing the name attribute just because of space constraints, 
+but you shouldn't during the actual PE or finals :) \\ \\
+Likewise, if you define another getter functions that returns the attribute as is, then you should do the same as 
+the \texttt{\bfseries get\_name()} and and \texttt{\bfseries get\_permitted\_roles()} method. Otherwise, you will 
+be considered breaking abstraction.
 \begin{python}
 class Channel:
     def __init__(self, name, roles):
@@ -681,7 +703,6 @@ class User: # @everyone
         
     def get_channels(self):
         return sorted(map(lambda x: x.name, self.channels))
-
     def join(self, channel):
         if channel in self.channels:
             return f"{self.name} has already joined {channel.name}"
@@ -731,7 +752,6 @@ class User: # @everyone
         else:
             return f"{self.name} doesn't have a permission to mute " + \
                    "another user"
-
 
     def unmute(self, other):
         if other == self and self.muted:
