@@ -88,7 +88,7 @@ def blame(answers, name1, name2):
 
 # 2G
 # A possible solution might be modifying the resubmit_answer function to not overwrite the submission.
-# Instead, we use the normal submit_answer method even for submission.
+# Instead, we use the normal submit_answer method even for resubmission.
 # But this means we have to slightly modify get_answer to return a sequence of multiple answers
 # in case someone has more than one submission.
 # Consequently, we might also have to slightly modify the blame function to iterate through each of one's answers.
