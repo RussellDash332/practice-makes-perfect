@@ -259,7 +259,7 @@ class WhiteBloodCell(Cell):
 
     def regenerate(self):
         if not self.dead:
-            self.health = min(100, self.health + 15*self.utility)
+            self.health = min(100, self.health + 30 * self.utility)
             self.utility *= 1.1
 
     def attack(self, other):

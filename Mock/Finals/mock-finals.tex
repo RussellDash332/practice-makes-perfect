@@ -334,7 +334,8 @@ Implement the function \colorbox{CornflowerBlue!20}{\texttt{cd(directory, path)}
 \texttt{\bfseries directory} representing a directory and a string \texttt{\bfseries path} representing the path 
 where you want to go. \\
 Note that \texttt{\bfseries path} is a series of directories that you want to go to, separated by a \texttt{\bfseries "/"} 
-and always ends with a \texttt{\bfseries "."} to indicate the end of traversal. \\ \\
+and always ends with a \texttt{\bfseries "."} to indicate the end of traversal. \\
+You may assume that the given input is a valid path. \\ \\
 Sample execution:
 \begin{python}
 >>> cd(home, "c/.")
@@ -359,7 +360,8 @@ you have implemented previously.
 Besides changing your current working directory, you can rename a file as well. Implement the function 
 \colorbox{CornflowerBlue!20}{\texttt{rename(directory, path, old\_name, new\_name)}} that takes in a dictionary \texttt{\bfseries directory} representing a directory, 
 a string \texttt{\bfseries path} representing the path, and two strings \texttt{\bfseries old\_name} and \texttt{\bfseries new\_name} for the files that you want its 
-name to change. Simply rename the file name into the new name by modifying the directory itself. \\ \\
+name to change. Simply rename the file name into the new name by modifying the directory itself. \\
+You may assume that the given input is a valid path. \\ \\
 Sample execution:
 \begin{python}
 >>> rename(home, "c/g/.", "i.py", "j.java")
@@ -399,10 +401,8 @@ Sample execution:
         'h': {}
     },
     # It's copied!
-    'i.py': None,
-    'j.java': None
+    'i.py': None, 'j.java': None
 }
-
 # BONUS PART
 >>> copy(home, ".", "c/.") # what will happen?
 \end{python}
@@ -413,7 +413,7 @@ Sample execution:
 \item[\textbf{E.}]
 Implement the function \colorbox{CornflowerBlue!20}{\texttt{move(directory, path, new\_path)}} that takes in a dictionary \texttt{\bfseries directory} representing a directory, 
 a string \texttt{\bfseries path} representing the path, and a string \texttt{\bfseries new\_path} for the new path. Move all the contents of the old directory to the new directory. \\
-Similarly, you may assume the new directory is never a proper subset of the old directory.\\ \\
+Similarly, you may assume the new directory is never a proper subset of the old directory and that the given input is a valid path. \\ \\
 Sample execution:
 \begin{python}
 >>> cd(home, "c/.")
@@ -518,8 +518,8 @@ redundant code will be penalised.
 
 \item[\textbf{C.}]
 A \colorbox{CornflowerBlue!20}{\texttt{\textbf{WhiteBloodCell}}} is also a special type of cell. Constructed by only its damage and utility, it is always created 
-with 30 health and every time it regenerates, its utility increases by 10\% of its original utility. Moreover, it can attack cells other than itself as long as 
-its own health is at least 50.
+with 30 health and it regenerates just like a red blood cell but everytime it does, its utility increases by 10\% of its original utility. Moreover, it can attack 
+cells other than itself as long as its own health is at least 50.
 \begin{itemize}
 \item If the attack is successful, the target cell's health will be decreased by \textbf{the product between the white blood cell's damage and utility}. Additionally, 
 if the target cell is a red blood cell, its utility will be decreased by 30\% of the original utility.
