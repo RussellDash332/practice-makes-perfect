@@ -1,6 +1,8 @@
 # CS1010S Extra Practice Questions
 ![Visitors](https://visitor-badge.laobi.icu/badge?page_id=RussellDash332/practice-makes-perfect)
 
+> This repository has been combined with Keng Hwee's practice repository at [this repository](https://github.com/cs1010s/practice-makes-perfect). You can take a look there!
+
 Post-tutorial extra practice questions. Meant for educational purposes on TA-ing [CS1010S: Programming Methodology](https://nusmods.com/modules/CS1010S/programming-methodology).
 
 ### Files
