@@ -23,15 +23,16 @@ def choose(n, m):
     if n == m or m == 0:
         return 1
     return choose(n-1, m-1) + choose(n-1, m)
-# Time: actually O(nCm), but for CS1010S we accept any approximations such as O(2^n), O(n^m) and so on
-# (even O(n^n) which is a weak bound!)
+# Time: actually O(nCm), but O(2^n) should be okay despite being a weaker bound.
 # Most common should be O(2^n), due to the tree drawn as shown
 ##                            n, k
 ##                n-1, k-1               n-1, k
 ##        n-2, k-2      n-2, k-1  n-2, k-1    n-2, k
 ##      ...     ...   ...   ... ...     ...  ...   ...
 # Note that each level decreases n by 1, so the depth of the tree is O(n) and thus
-# the complexity is the number of leaves is O(1 + 2 + ... + 2^n = 2^(n+1)) = O(2^n)
+# the complexity is the number of nodes which is O(1 + 2 + ... + 2^n = 2^(n+1)) = O(2^n)
+# But actually, there are nCm nodes to be exact.
+#
 # Space: O(n), again the depth of the tree
 
 def choose_iterative(n, m):
