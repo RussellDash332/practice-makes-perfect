@@ -97,15 +97,16 @@ def cumulative_prob_hof(n, p, k):
 # (coins, (b1, p1), (b2, p2), (b3, p3), ...)
 
 def make_account():
-    return (1000, ())
+    return (1000, ()) # start with 1000 coins
 
 def add_coins(account, amt):
     return (account[0] + amt, account[1])
 
 def obtain_powerpoint(account, brawler, points):
-    result = (account[0] - 2*points,)
+    result = (account[0] - 2*points,) # assumption from the question: this is >= 0
     brawlers = ()
     exist = False
+
     for i in account[1]:
         if i[0] == brawler:
             exist = True
@@ -113,7 +114,7 @@ def obtain_powerpoint(account, brawler, points):
         else:
             brawlers += (i,)
 
-    if not exist:
+    if not exist: # if I never have it before, make a new brawler tuple
         brawlers += ((brawler, points),)
 
     return result + (brawlers,)
@@ -127,6 +128,10 @@ def get_brawlers(account):
     for i in account[1]:
         result += (i[0],)
     return result
+
+# One-liner solution
+def get_brawlers(account):
+    return map(lambda x: x[0], account[1])
 
 def get_level(account, brawler):
     def level(p):
@@ -147,25 +152,33 @@ def get_level(account, brawler):
     for i in account[1]:
         if i[0] == brawler:
             return level(i[1])
-    return 0
+    return 0 # brawler not found
 
 def obtain_powerpoint_better(account, brawler, points):
-    balance = account[0] - 2*points
+    balance = get_coins(account) - 2*points # we're still assuming from part C that this is >= 0
     brawlers = ()
     exist = False
     for i in account[1]:
         if i[0] == brawler:
             exist = True
             # There might be a simpler solution but this works
+            # Check if there's an excess first
             excess = max(550, i[1]+points)-550
+
+            # Cap the brawler's powerpoint at 550
             brawlers += ((i[0], min(550, i[1]+points)),)
+
+            # Retuen the excess to the balance again
             balance += 2*excess
         else:
             brawlers += (i,)
 
-    if not exist:
-        excess = max(550, points)-550
-        brawlers += ((brawler, min(550, points)),)
-        balance += 2*excess
+    if not exist: # same idea as part C
+        brawlers += ((brawler, points),)
 
     return (balance, brawlers)
+
+# If there's no excess in the first place, excess = 0 since i[1] + points < 550
+# and min(550, i[1] + points) will also be i[1] + points so balance remains the same.
+# If there's excess, excess will be i[1] (current points) + points (new points) - 550,
+# so the brawlers' point will be still capped at 550 but we add 2*excess to the balance.
